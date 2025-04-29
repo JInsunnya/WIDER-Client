@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import GlobalStyle from './common/GlobalStyles';
+import Landing from './pages/intro/Landing';
+import Onboarding from './pages/intro/Onboarding';
+import TermsAgreement from './pages/signup/TermsAgreement';
+import ServiceTerms from './pages/signup/ServiceTerms';
+import PrivacyTerms from './pages/signup/PrivacyTerms';
+import SignUp from './pages/signup/SignUp';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <GlobalStyle />
+            <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/termsagreement" element={<TermsAgreement />} />
+                <Route path="/serviceterms" element={<ServiceTerms />} />
+                <Route path="/privacyterms" element={<PrivacyTerms />} />
+                <Route path="/signup" element={<SignUp />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
