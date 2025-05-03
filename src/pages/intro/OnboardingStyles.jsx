@@ -38,6 +38,7 @@ export const StartButton = styled.div`
     font-size: 20px;
     border-radius: 20px;
     margin-bottom: 25px;
+    cursor: pointer;
 `;
 
 export const Login = styled.div`
@@ -52,4 +53,5 @@ export const Login = styled.div`
 export const LoginButton = styled.div`
     color: #0a84ff;
     font-weight: bold;
+    cursor: pointer;
 `;

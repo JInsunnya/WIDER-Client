@@ -10,6 +10,10 @@ const Onboarding = () => {
         navigate('/signup');
     };
 
+    const goToLogin = () => {
+        navigate('/login');
+    };
+
     return (
         <On.Container>
             <On.LogoImg>
@@ -22,9 +26,10 @@ const Onboarding = () => {
             <On.StartButton onClick={goToSignUp}>시작하기</On.StartButton>
             <On.Login>
                 이미 계정이 있으신가요?
-                <On.LoginButton>로그인</On.LoginButton>
+                <On.LoginButton onClick={goToLogin}>로그인</On.LoginButton>
             </On.Login>
         </On.Container>
     );
 };
+
 export default Onboarding;
