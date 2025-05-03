@@ -7,6 +7,8 @@ import TermsAgreement from './pages/signup/TermsAgreement';
 import ServiceTerms from './pages/signup/ServiceTerms';
 import PrivacyTerms from './pages/signup/PrivacyTerms';
 import SignUp from './pages/signup/SignUp';
+import Login from './pages/login/Login';
+import Home from './pages/home/HomePage';
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                 <Route path="/serviceterms" element={<ServiceTerms />} />
                 <Route path="/privacyterms" element={<PrivacyTerms />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
             </Routes>
         </BrowserRouter>
     );
