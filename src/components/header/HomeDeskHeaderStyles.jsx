@@ -4,7 +4,7 @@ export const Container = styled.div`
     position: fixed;
     top: 0;
     left: 130px;
-    width: 100%;
+    width: calc(100% - 130px);
     height: 100px;
     display: flex;
     flex-direction: row;
@@ -39,4 +39,13 @@ export const Title = styled.div`
 export const Text = styled.div`
     font-size: 14px;
     font-weight: bold;
+`;
+
+export const Report = styled.div`
+    img {
+        width: 70px;
+        height: 70px;
+    }
+    margin-left: auto;
+    margin-right: 50px;
 `;
