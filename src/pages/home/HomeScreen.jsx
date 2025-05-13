@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as H from './HomeScreenStyles.jsx';
 import LogoIcon from '../../assets/LogoIcon.png';
 import BellOff from '../../assets/BellOff.png';
@@ -6,6 +7,12 @@ import BellOff from '../../assets/BellOff.png';
 import Footer from '../../components/footer/Footer';
 
 const Home = () => {
+    const navigate = useNavigate();
+
+    const goToChat = () => {
+        navigate('/chat');
+    };
+
     return (
         <H.Container>
             <H.Header>
@@ -22,7 +29,7 @@ const Home = () => {
             </H.Header>
             <H.Content>
                 <H.Title>오늘의 질문</H.Title>
-                <H.Question>기본 소득 도입 정책에 대해서 어떻게 생각하세요?</H.Question>
+                <H.Question onClick={goToChat}>기본 소득 도입 정책에 대해서 어떻게 생각하세요?</H.Question>
                 <H.StartConversation>
                     터치하여 대화를 <br />
                     시작하세요!
