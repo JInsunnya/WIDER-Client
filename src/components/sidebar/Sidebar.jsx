@@ -19,7 +19,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const goToChat = () => {
-        navigate('/chatdesk');
+        navigate('/chat');
     };
 
     const goToHome = () => {
@@ -42,7 +42,7 @@ const Sidebar = () => {
         <S.Container>
             <S.TopNav>
                 <S.Chat onClick={goToChat}>
-                    <img src={location.pathname === '/chatdesk' ? ChatOn : ChatOff} />
+                    <img src={location.pathname === '/chat' || location.pathname === '/report' ? ChatOn : ChatOff} />
                 </S.Chat>
                 <S.Home onClick={goToHome}>
                     <img src={location.pathname === '/home' ? HomeOn : HomeOff} />
