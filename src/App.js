@@ -9,6 +9,8 @@ import PrivacyTerms from './pages/signup/PrivacyTerms';
 import SignUp from './pages/signup/SignUp';
 import Login from './pages/login/Login';
 import Home from './pages/home/HomePage';
+import Chat from './pages/chat/ChatPage';
+import Report from './pages/report/ReportPage';
 
 function App() {
     return (
@@ -23,6 +25,8 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/report" element={<Report />} />
             </Routes>
         </BrowserRouter>
     );
