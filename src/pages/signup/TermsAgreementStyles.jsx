@@ -10,12 +10,12 @@ export const Container = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const TitleWider = styled.div`
     font-size: 24px;
-    color: #0a84ff;
+    color: #6ba9ec;
     font-weight: bold;
     margin-top: 30px;
 `;
@@ -27,8 +27,8 @@ export const TitleText = styled.div`
 `;
 
 export const ButtonAgreement = styled.div`
-    border: 1px solid ${({ $allChecked }) => ($allChecked ? '#0a84ff' : '#d0cccc')};
-    color: ${({ $allChecked }) => ($allChecked ? '#0a84ff' : '#d0cccc')};
+    border: 1px solid ${({ $allChecked }) => ($allChecked ? '#6BA9EC' : '#d0cccc')};
+    color: ${({ $allChecked }) => ($allChecked ? '#6BA9EC' : '#d0cccc')};
     padding: 15px;
     border-radius: 20px;
     margin-top: 30px;
@@ -57,7 +57,7 @@ export const TermsRequiredImgCheck = styled.div`
 `;
 
 export const TermsRequiredText = styled.div`
-    margin-left: -40px;
+    margin-left: -50px;
 `;
 
 export const TermsRequiredImgArrow = styled.div`
@@ -81,7 +81,7 @@ export const PrivacyRequiredImgCheck = styled.div`
 `;
 
 export const PrivacyRequiredText = styled.div`
-    margin-left: -50px;
+    margin-left: -60px;
 `;
 
 export const PrivacyRequiredImgArrow = styled.div`
