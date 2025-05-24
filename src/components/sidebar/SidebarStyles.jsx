@@ -18,12 +18,12 @@ export const Container = styled.div`
 export const TopNav = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     margin-top: 0px;
 `;
 
 export const BottomNav = styled.div`
-    margin-top: 220px;
+    margin-top: 180px;
 `;
 
 export const Chat = styled.div`
