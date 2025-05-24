@@ -197,7 +197,7 @@ const ServiceTerms = () => {
                         해결합니다.
                     </St.ListText>
                 </St.ListItem>
-                <St.SubTitle>시행일자: 2025년 0월 0일</St.SubTitle>
+                <St.SubTitle>시행일자: 2025년 5월 20일</St.SubTitle>
             </St.Content>
         </St.Container>
     );

@@ -7,6 +7,14 @@ import TermsAgreement from './pages/signup/TermsAgreement';
 import ServiceTerms from './pages/signup/ServiceTerms';
 import PrivacyTerms from './pages/signup/PrivacyTerms';
 import SignUp from './pages/signup/SignUp';
+import Login from './pages/login/Login';
+import Home from './pages/home/HomePage';
+import Chat from './pages/chat/ChatPage';
+import Report from './pages/report/ReportPage';
+import RecordCategory from './pages/chatRecord/RecordCategoryPage';
+import RecordDate from './pages/chatRecord/RecordDatePage';
+import Insight from './pages/insight/InsightPage';
+import InsightChart from './pages/insight/InsightChartPage';
 
 function App() {
     return (
@@ -19,6 +27,14 @@ function App() {
                 <Route path="/serviceterms" element={<ServiceTerms />} />
                 <Route path="/privacyterms" element={<PrivacyTerms />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/chat" element={<Chat />} />
+                <Route path="/report" element={<Report />} />
+                <Route path="/recordcategory" element={<RecordCategory />} />
+                <Route path="/recorddate" element={<RecordDate />} />
+                <Route path="/insight" element={<Insight />} />
+                <Route path="/insightchart" element={<InsightChart />} />
             </Routes>
         </BrowserRouter>
     );
