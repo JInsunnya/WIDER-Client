@@ -11,15 +11,19 @@ const HomeDesk = () => {
         navigate('/chat');
     };
 
+    const goToReport = () => {
+        navigate('/report');
+    };
+
     return (
         <Hd.Container>
             <HomeDeskHeader />
             <Hd.Content>
                 <Hd.Title>오늘의 질문</Hd.Title>
-                <Hd.Question onClick={goToChat}>기본 소득 도입 정책에 대해서 어떻게 생각하세요?</Hd.Question>
+                <Hd.Question onClick={goToChat}>대선 후보 단일화의 주요 후보는 누구인가요?</Hd.Question>
                 <Hd.StartConversation>터치하여 대화를 시작하세요!</Hd.StartConversation>
                 <Hd.ReportCreated>어제의 리포트가 생성되었습니다!</Hd.ReportCreated>
-                <Hd.ButtonReport>리포트 보러 가기</Hd.ButtonReport>
+                <Hd.ButtonReport onClick={goToReport}>리포트 보러 가기</Hd.ButtonReport>
             </Hd.Content>
             <Sidebar />
         </Hd.Container>

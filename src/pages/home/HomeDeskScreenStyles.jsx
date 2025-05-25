@@ -31,6 +31,7 @@ export const Question = styled.div`
     height: 200px;
     width: 650px;
     font-size: 30px;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: center;
