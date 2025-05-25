@@ -10,7 +10,7 @@ export const Container = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const Content = styled.div`
@@ -22,7 +22,7 @@ export const Content = styled.div`
 
 export const Text = styled.div`
     font-size: 22px;
-    margin-top: 50px;
+    margin-top: 40px;
 `;
 
 export const GenderSelectButton = styled.div`
@@ -42,7 +42,7 @@ export const GenderButton = styled.div`
     justify-content: center;
     cursor: pointer;
 
-    background-color: ${(props) => (props.isSelected ? '#0A84FF' : 'transparent')};
+    background-color: ${(props) => (props.isSelected ? '#6BA9EC' : 'transparent')};
     color: ${(props) => (props.isSelected ? 'white' : 'black')};
     border: ${(props) => (props.isSelected ? 'none' : '1px solid #D0CCCC')};
 `;
@@ -65,7 +65,7 @@ export const Input = styled.input`
 
     &:focus {
         outline: none;
-        border: 2px solid #0a84ff;
+        border: 2px solid #6ba9ec;
     }
 `;
 
@@ -73,12 +73,12 @@ export const StartButton = styled.div`
     font-size: 22px;
     font-weight: bold;
     color: white;
-    background-color: #0a84ff;
+    background-color: #6ba9ec;
     border-radius: 20px;
     width: 90%;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20%;
+    margin-top: 15%;
 `;
