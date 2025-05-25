@@ -13,24 +13,25 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const LogoImg = styled.div`
     img {
         width: 280px;
-        height: 160px;
+        height: 280px;
     }
 `;
 
 export const Title = styled.div`
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 20px;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
+    font-weight: bold;
 `;
 
 export const StartButton = styled.div`
-    background-color: #0a84ff;
+    background-color: #6ba9ec;
     padding: 15px;
     width: 230px;
     color: white;
@@ -51,7 +52,7 @@ export const Login = styled.div`
 `;
 
 export const LoginButton = styled.div`
-    color: #0a84ff;
+    color: #6ba9ec;
     font-weight: bold;
     cursor: pointer;
 `;
