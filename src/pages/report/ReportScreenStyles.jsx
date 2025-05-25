@@ -13,7 +13,7 @@ export const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const Header = styled.div`
@@ -38,6 +38,7 @@ export const ArrowLeft = styled.div`
         width: 30px;
         height: 30px;
     }
+    cursor: pointer;
 `;
 
 export const HeaderText = styled.div`
@@ -53,7 +54,7 @@ export const Content = styled.div`
     overflow-y: auto;
     height: calc(100vh - 60px);
     width: 100%;
-    padding: 0 40px;
+    padding: 0 50px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -86,7 +87,7 @@ export const Line = styled.div`
 
 export const Summary = styled.div`
     color: #383636;
-    margin-top: 5%;
+    margin-top: 1%;
 `;
 
 export const SummaryTitle = styled.div`
@@ -132,10 +133,11 @@ export const ExampleContent = styled.div`
     background-color: #dff1ff;
     border-radius: 20px;
     margin-top: 5%;
-    width: 150%;
-    height: 50px;
+    width: 100%;
+    height: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 10%;
 `;

@@ -36,6 +36,7 @@ export const ArrowLeft = styled.div`
         width: 30px;
         height: 30px;
     }
+    cursor: pointer;
 `;
 
 export const HeaderText = styled.div`
@@ -45,7 +46,7 @@ export const HeaderText = styled.div`
 `;
 
 export const Content = styled.div`
-    margin-top: 1%;
+    margin-top: 3%;
 `;
 
 export const Level = styled.div`
@@ -70,6 +71,7 @@ export const Summary = styled.div`
     color: #383636;
     margin-top: 5%;
     text-align: left;
+    margin-bottom: 5%;
 `;
 
 export const SummaryTitle = styled.div`
@@ -133,12 +135,13 @@ export const ExampleContent = styled.div`
     background-color: #dff1ff;
     border-radius: 20px;
     margin-top: 5%;
-    width: 150%;
-    height: 50px;
+    width: 110%;
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    padding: 16px 12px;
 `;
 
 export const Grid = styled.div`
@@ -149,6 +152,7 @@ export const Grid = styled.div`
     gap: 40px;
     justify-content: space-between;
     padding-left: 100px;
+    margin-top: 8%;
 `;
 
 export const LeftColumn = styled.div`
