@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SettingMobile from '../insight/Insight';
 import SettingDesktop from './Setting';
 
-const ReportPage = () => {
+const SettingPage = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -16,4 +16,4 @@ const ReportPage = () => {
     return isMobile ? <SettingMobile /> : <SettingDesktop />;
 };
 
-export default ReportPage;
+export default SettingPage;
