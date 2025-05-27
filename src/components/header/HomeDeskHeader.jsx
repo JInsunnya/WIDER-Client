@@ -28,6 +28,8 @@ const HomeDeskHeader = () => {
                     <Dh.TextRecord>상반기 히스토그램을 확인해 보세요!</Dh.TextRecord>
                 ) : location.pathname === '/insightchart' ? (
                     <Dh.TextRecord>월별 히스토그램을 확인해 보세요!</Dh.TextRecord>
+                ) : location.pathname === '/setting' ? (
+                    <Dh.TextRecord>나의 계정 정보를 확인해 보세요!</Dh.TextRecord>
                 ) : (
                     <>
                         <Dh.Title>나의 AI 파트너, WIDER와</Dh.Title>

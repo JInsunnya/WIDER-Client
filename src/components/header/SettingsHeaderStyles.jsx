@@ -74,4 +74,41 @@ export const Setting = styled.div`
         width: 45px;
         height: 45px;
     }
+    cursor: pointer;
+    position: relative;
+`;
+
+export const DropdownBox = styled.div`
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 260px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+`;
+
+export const SectionTitle = styled.div`
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const ItemRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+
+    ${({ nonHover }) =>
+        !nonHover &&
+        `
+        &:hover {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+    `}
 `;
