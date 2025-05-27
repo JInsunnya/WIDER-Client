@@ -36,7 +36,6 @@ const InsightChart = () => {
         <I.Container>
             <Header />
             <I.Content>
-                {/* <I.Title>2025/상반기 ▼</I.Title> */}
                 <I.TermSelector onClick={toggleDropdown}>
                     2025/{term} ▼
                     {showDropdown && (
