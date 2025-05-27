@@ -4,7 +4,7 @@ import * as H from './HomeScreenStyles.jsx';
 import LogoIcon from '../../assets/LogoIcon.png';
 import BellOff from '../../assets/BellOff.png';
 // import BellOn from '../../assets/BellOn.png';
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/footer/Footer.jsx';
 import RectangleHeader from '../../assets/RectangleHeader.svg';
 
 const Home = () => {
@@ -18,6 +18,10 @@ const Home = () => {
         navigate('/report');
     };
 
+    const goToNotification = () => {
+        navigate('/notification');
+    };
+
     return (
         <H.Container>
             <H.Header>
@@ -29,7 +33,7 @@ const Home = () => {
                     <H.ServiceName>나의 AI 파트너, WIDER와</H.ServiceName>
                     <H.ServiceTagline>오늘의 대화를 시작해 보세요!</H.ServiceTagline>
                 </H.HeaderText>
-                <H.BellOff>
+                <H.BellOff onClick={goToNotification}>
                     <img src={BellOff} />
                 </H.BellOff>
             </H.Header>
