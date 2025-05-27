@@ -35,7 +35,7 @@ const Sidebar = () => {
     };
 
     const goToSetting = () => {
-        navigate('/settingdesk');
+        navigate('/setting');
     };
 
     return (
