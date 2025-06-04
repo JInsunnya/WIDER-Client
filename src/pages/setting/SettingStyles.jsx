@@ -56,3 +56,33 @@ export const ItemRow = styled.div`
         }
     `}
 `;
+
+export const PasswordBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 10px 0 10px;
+    margin-top: 10px;
+`;
+
+export const PasswordInput = styled.input`
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+`;
+
+export const SubmitButton = styled.button`
+    padding: 10px;
+    font-size: 15px;
+    background-color: #6ba9ec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #4894e5;
+    }
+`;
