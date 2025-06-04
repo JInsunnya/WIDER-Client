@@ -9,9 +9,9 @@ import ArrowRight from '../../assets/ArrowRight.png';
 const TermsAgreement = () => {
     const navigate = useNavigate();
 
-    const [termsChecked, setTermsChecked] = useState(true);
-    const [privacyChecked, setPrivacyChecked] = useState(true);
-    const [marketingChecked, setMarketingChecked] = useState(true);
+    const [termsChecked, setTermsChecked] = useState(false);
+    const [privacyChecked, setPrivacyChecked] = useState(false);
+    const [marketingChecked, setMarketingChecked] = useState(false);
 
     const toggleTerms = () => setTermsChecked(!termsChecked);
     const togglePrivacy = () => setPrivacyChecked(!privacyChecked);

@@ -11,7 +11,7 @@ export const Container = styled.div`
     flex-direction: row;
     align-items: center;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     z-index: 10;
     margin-left: -20px;
 `;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as L from './LandingStyles.jsx';
 import Logo from '../../assets/Logo.png';
@@ -9,6 +9,14 @@ const Landing = () => {
     const handleClick = () => {
         navigate('/onboarding');
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate('/onboarding');
+        }, 2500);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <L.Container onClick={handleClick}>
