@@ -112,3 +112,45 @@ export const ItemRow = styled.div`
         }
     `}
 `;
+
+export const PasswordOverlay = styled.div`
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 280px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    padding: 20px;
+`;
+
+export const PasswordBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+export const Input = styled.input`
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    &:focus {
+        outline: none;
+        border: 2px solid #6ba9ec;
+    }
+`;
+
+export const SubmitButton = styled.button`
+    padding: 10px;
+    background-color: #6ba9ec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #4091e8;
+    }
+`;
