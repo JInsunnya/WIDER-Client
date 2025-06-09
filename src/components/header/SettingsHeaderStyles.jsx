@@ -60,6 +60,7 @@ export const TitleText = styled.div`
     white-space: nowrap;
     margin-left: -90px;
     z-index: 1;
+    white-space: pre-line;
 `;
 
 export const Right = styled.div`
@@ -73,5 +74,107 @@ export const Setting = styled.div`
     img {
         width: 45px;
         height: 45px;
+    }
+    cursor: pointer;
+    position: relative;
+`;
+
+export const DropdownBox = styled.div`
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 260px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+`;
+
+export const SectionTitle = styled.div`
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const ItemRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+
+    ${({ nonHover }) =>
+        !nonHover &&
+        `
+        &:hover {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+    `}
+`;
+
+export const PasswordOverlay = styled.div`
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 280px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    padding: 20px;
+`;
+
+export const PasswordBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+export const Input = styled.input`
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    &:focus {
+        outline: none;
+        border: 2px solid #6ba9ec;
+    }
+`;
+
+export const SubmitButton = styled.button`
+    padding: 10px;
+    background-color: #6ba9ec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #4091e8;
+    }
+`;
+
+export const ConfirmText = styled.div`
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const LogoutButton = styled.button`
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #6ba9ec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 5px;
+
+    &:hover {
+        background-color: #4091e8;
     }
 `;
