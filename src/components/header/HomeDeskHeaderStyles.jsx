@@ -31,11 +31,23 @@ export const Body = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;
     color: #4e4e4e;
     font-size: 18px;
-    padding: 15px 30px;
     font-weight: bold;
+`;
+
+export const TextWrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    z-index: 1;
 `;
 
 export const BackgroundImg = styled.img`
@@ -56,6 +68,25 @@ export const Title = styled.div`
 export const Text = styled.div`
     position: relative;
     z-index: 1;
+`;
+
+export const Report = styled.div`
+    img {
+        width: 70px;
+        height: 70px;
+    }
+    margin-left: auto;
+    margin-right: 50px;
+    cursor: pointer;
+`;
+
+export const TextRecord = styled.div`
+    font-weight: bold;
+    font-size: 18px;
+    color: #4e4e4e;
+    z-index: 1;
+    position: relative;
+    text-align: center;
 `;
 
 export const Report = styled.div`
