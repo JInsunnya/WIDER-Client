@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { signupApi } from '../api/signup/SignupApi';
 import { loginApi } from '../api/login/LoginApi';
 import { changePasswordApi } from '../api/user/changePasswordApi';
+import { logoutApi } from '../api/user/logoutApi';
+import { deleteUserApi } from '../api/user/deleteUserApi';
 
 export const signup = createAsyncThunk('user/signup', async (signupData, { rejectWithValue }) => {
     try {
@@ -33,6 +35,24 @@ export const changePassword = createAsyncThunk(
     }
 );
 
+export const serverLogout = createAsyncThunk('user/serverLogout', async (token, { rejectWithValue }) => {
+    try {
+        const result = await logoutApi(token);
+        return result;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || { message: '서버 응답 없음' });
+    }
+});
+
+export const deleteUser = createAsyncThunk('user/deleteUser', async ({ user_id, password }, { rejectWithValue }) => {
+    try {
+        const result = await deleteUserApi({ user_id, password });
+        return result;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || { message: '회원 탈퇴 실패' });
+    }
+});
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
@@ -47,6 +67,7 @@ const userSlice = createSlice({
             state.id = '';
             state.token = '';
             state.isLoggedIn = false;
+            state.error = null;
         },
     },
     extraReducers: (builder) => {
@@ -94,6 +115,16 @@ const userSlice = createSlice({
             })
             .addCase(changePassword.rejected, (state, action) => {
                 state.error = action.payload;
+            })
+            .addCase(serverLogout.fulfilled, (state) => {
+                state.id = '';
+                state.token = '';
+                state.isLoggedIn = false;
+            })
+            .addCase(deleteUser.fulfilled, (state) => {
+                state.id = '';
+                state.token = '';
+                state.isLoggedIn = false;
             });
     },
 });
