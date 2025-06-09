@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Dh from './HomeDeskHeaderStyles.jsx';
 import Logo from '../../assets/LogoIcon.png';
 import Report from '../../assets/Report.png';
+import RectangleHeader from '../../assets/RectangleHeader.svg';
 
 const HomeDeskHeader = () => {
     const location = useLocation();
@@ -20,8 +21,21 @@ const HomeDeskHeader = () => {
                 <img src={Logo} />
             </Dh.Logo>
             <Dh.Body>
-                <Dh.Title>WIDER</Dh.Title>
-                <Dh.Text>내 생각을 키워주는 AI 파트너</Dh.Text>
+                <Dh.BackgroundImg src={RectangleHeader} />
+                {location.pathname.startsWith('/record') ? (
+                    <Dh.TextRecord>리포트 기록을 확인해 보세요!</Dh.TextRecord>
+                ) : location.pathname === '/insight' ? (
+                    <Dh.TextRecord>상반기 히스토그램을 확인해 보세요!</Dh.TextRecord>
+                ) : location.pathname === '/insightchart' ? (
+                    <Dh.TextRecord>월별 히스토그램을 확인해 보세요!</Dh.TextRecord>
+                ) : location.pathname === '/setting' ? (
+                    <Dh.TextRecord>나의 계정 정보를 확인해 보세요!</Dh.TextRecord>
+                ) : (
+                    <>
+                        <Dh.Title>나의 AI 파트너, WIDER와</Dh.Title>
+                        <Dh.Text>오늘의 대화를 시작해 보세요!</Dh.Text>
+                    </>
+                )}
             </Dh.Body>
             {location.pathname === '/chat' && (
                 <Dh.Report onClick={goToReport}>

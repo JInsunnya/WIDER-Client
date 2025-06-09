@@ -13,12 +13,25 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const LogoImg = styled.div`
+    animation: fadeIn 1.2s ease-in-out;
+
     img {
         width: 270px;
-        height: 160px;
+        height: 270px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 `;

@@ -10,7 +10,7 @@ export const Container = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     overflow-y: auto;
 `;
 

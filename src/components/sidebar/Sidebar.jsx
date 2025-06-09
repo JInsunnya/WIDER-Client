@@ -19,7 +19,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const goToChat = () => {
-        navigate('/chatdesk');
+        navigate('/chat');
     };
 
     const goToHome = () => {
@@ -27,31 +27,43 @@ const Sidebar = () => {
     };
 
     const goToRecord = () => {
-        navigate('/recordsdesk');
+        navigate('/recordcategory');
     };
 
     const goToInsight = () => {
-        navigate('/insightdesk');
+        navigate('/insight');
     };
 
     const goToSetting = () => {
-        navigate('/settingdesk');
+        navigate('/setting');
     };
 
     return (
         <S.Container>
             <S.TopNav>
                 <S.Chat onClick={goToChat}>
-                    <img src={location.pathname === '/chatdesk' ? ChatOn : ChatOff} />
+                    <img src={location.pathname === '/chat' || location.pathname === '/report' ? ChatOn : ChatOff} />
                 </S.Chat>
                 <S.Home onClick={goToHome}>
                     <img src={location.pathname === '/home' ? HomeOn : HomeOff} />
                 </S.Home>
                 <S.Record onClick={goToRecord}>
-                    <img src={location.pathname === '/recordsdesk' ? RecordOn : RecordOff} />
+                    <img
+                        src={
+                            location.pathname === '/recordcategory' || location.pathname === '/recorddate'
+                                ? RecordOn
+                                : RecordOff
+                        }
+                    />
                 </S.Record>
                 <S.Insight onClick={goToInsight}>
-                    <img src={location.pathname === '/insightdesk' ? InsightOn : InsightOff} />
+                    <img
+                        src={
+                            location.pathname === '/insight' || location.pathname === '/insightchart'
+                                ? InsightOn
+                                : InsightOff
+                        }
+                    />
                 </S.Insight>
             </S.TopNav>
             <S.BottomNav>
