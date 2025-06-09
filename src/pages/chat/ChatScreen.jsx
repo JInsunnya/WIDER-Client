@@ -1,16 +1,116 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as Cs from './ChatScreenStyles.jsx';
+import { startChatApi, respondChatApi, endChatApi } from '../../api/chat/ChatApi';
+import { generateReportApi } from '../../api/report/ReportApi';
 import ArrowLeft from '../../assets/ArrowLeft.png';
 import LogoIcon from '../../assets/LogoIcon.png';
 import Report from '../../assets/Report.png';
 import Send from '../../assets/Send.png';
+import RectangleHeader from '../../assets/RectangleHeader.svg';
 
 const Chat = () => {
     const navigate = useNavigate();
+    const token = useSelector((state) => state.user.token);
+
+    const [chatData, setChatData] = useState(null);
+    const [userAnswer, setUserAnswer] = useState('');
+    const [chatLog, setChatLog] = useState([]);
+    const [isComplete, setIsComplete] = useState(false);
+    const [summary, setSummary] = useState(null);
+    const textareaRef = useRef(null);
+    const [completionMessage, setCompletionMessage] = useState('');
 
     const goToReport = () => {
-        navigate('/report');
+        navigate('/report', {
+            state: {
+                sessionId: chatData?.session_id,
+            },
+        });
+    };
+
+    useEffect(() => {
+        const startChat = async () => {
+            try {
+                const data = await startChatApi(token);
+                setChatData(data);
+                setChatLog([{ sender: 'bot', text: data.question }]);
+            } catch (error) {
+                console.error('채팅 시작 실패:', error);
+            }
+        };
+
+        startChat();
+    }, [token]);
+
+    const handleSendAnswer = async () => {
+        if (!chatData || userAnswer.trim() === '') return;
+
+        const payload = {
+            session_id: chatData.session_id,
+            topic: chatData.topic,
+            current_level: chatData.current_level,
+            user_answer: userAnswer,
+        };
+
+        try {
+            setChatLog((prev) => [...prev, { sender: 'user', text: userAnswer }]);
+            setUserAnswer('');
+            if (textareaRef.current) textareaRef.current.style.height = '40px';
+
+            const response = await respondChatApi(token, payload);
+
+            setChatData(response);
+            setChatLog((prev) => [...prev, { sender: 'bot', text: response.question }]);
+
+            if (response.is_complete) {
+                setIsComplete(true);
+                const endPayload = {
+                    session_id: response.session_id,
+                    topic: response.topic,
+                    current_level: response.current_level,
+                    question: response.question,
+                };
+                const endResponse = await endChatApi(token, endPayload);
+                // setSummary(endResponse);
+                setSummary(endResponse.summary);
+                setCompletionMessage(endResponse.message);
+                console.log('종료 응답:', endResponse);
+
+                if (response.is_complete) {
+                    setIsComplete(true);
+
+                    const endPayload = {
+                        session_id: response.session_id,
+                        topic: response.topic,
+                        current_level: response.current_level,
+                        question: response.question,
+                    };
+
+                    const endResponse = await endChatApi(token, endPayload);
+                    setSummary(endResponse.summary);
+                    setCompletionMessage(endResponse.message);
+                    console.log('종료 응답:', endResponse);
+
+                    // 리포트 생성 API 호출
+                    try {
+                        const reportPayload = {
+                            report_id: crypto.randomUUID(), // UUID 자동 생성
+                            session_id: chatData.session_id,
+                            report: endResponse, // endChat 응답 전체 또는 필요한 필드만
+                        };
+
+                        const generatedReport = await generateReportApi(chatData.session_id, token, reportPayload);
+                        console.log('리포트 생성 완료:', generatedReport);
+                    } catch (err) {
+                        console.error('리포트 생성 실패:', err);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error('답변 실패:', err);
+        }
     };
 
     return (
@@ -23,30 +123,66 @@ const Chat = () => {
                     <img src={LogoIcon} />
                 </Cs.LogoIcon>
                 <Cs.HeaderText>
-                    <Cs.ServiceName>WIDER</Cs.ServiceName>
-                    <Cs.ServiceTagline>내 생각을 키워주는 AI 파트너</Cs.ServiceTagline>
+                    <Cs.BackgroundImg src={RectangleHeader} />
+                    <Cs.ServiceName>나의 AI 파트너, WIDER와</Cs.ServiceName>
+                    <Cs.ServiceTagline>오늘의 대화를 시작 해 보세요!</Cs.ServiceTagline>
                 </Cs.HeaderText>
                 <Cs.Report onClick={goToReport}>
                     <img src={Report} />
                 </Cs.Report>
             </Cs.Header>
             <Cs.Content>
-                <Cs.Date>2025/03/25</Cs.Date>
+                <Cs.Date>{new Date().toISOString().split('T')[0]}</Cs.Date>
                 <Cs.Chat>
-                    <Cs.Chatbot>기본 소득이란 무엇일까?</Cs.Chatbot>
-                    <Cs.ChatUser>
-                        음... 아무 일도 하지 않아도 모든 사람에게 일정한 돈을 주는 제도인 것 같아.
-                    </Cs.ChatUser>
+                    {chatLog.map((chat, index) =>
+                        chat.sender === 'bot' ? (
+                            <Cs.Chatbot key={index}>{chat.text}</Cs.Chatbot>
+                        ) : (
+                            <Cs.ChatUser key={index}>{chat.text}</Cs.ChatUser>
+                        )
+                    )}
                 </Cs.Chat>
+
+                {isComplete && (
+                    <>
+                        {completionMessage && <p style={{ marginTop: '20px' }}>{completionMessage}</p>}
+
+                        {summary && (
+                            <Cs.SummaryBox>
+                                <h4>대화 요약</h4>
+                                <p>{summary.feedback || '요약 정보가 없습니다.'}</p>
+                            </Cs.SummaryBox>
+                        )}
+                    </>
+                )}
             </Cs.Content>
-            <Cs.InputBox>
-                <Cs.InputWrapper>
-                    <Cs.Input type="text" />
-                    <Cs.Send>
-                        <img src={Send} />
-                    </Cs.Send>
-                </Cs.InputWrapper>
-            </Cs.InputBox>
+            {!isComplete && (
+                <Cs.InputBox>
+                    <Cs.InputWrapper>
+                        <Cs.Input
+                            as="textarea"
+                            ref={textareaRef}
+                            value={userAnswer}
+                            onChange={(e) => {
+                                setUserAnswer(e.target.value);
+                                const el = textareaRef.current;
+                                el.style.height = 'auto';
+                                el.style.height = `${el.scrollHeight}px`;
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSendAnswer();
+                                }
+                            }}
+                            placeholder="답변을 입력하세요..."
+                        />
+                        <Cs.Send onClick={handleSendAnswer}>
+                            <img src={Send} />
+                        </Cs.Send>
+                    </Cs.InputWrapper>
+                </Cs.InputBox>
+            )}
         </Cs.Container>
     );
 };

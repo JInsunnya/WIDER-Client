@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import GlobalStyle from './common/GlobalStyles';
+// import GlobalStyle from './common/GlobalStyles';
 import Landing from './pages/intro/Landing';
 import Onboarding from './pages/intro/Onboarding';
 import TermsAgreement from './pages/signup/TermsAgreement';
@@ -15,11 +15,14 @@ import RecordCategory from './pages/chatRecord/RecordCategoryPage';
 import RecordDate from './pages/chatRecord/RecordDatePage';
 import Insight from './pages/insight/InsightPage';
 import InsightChart from './pages/insight/InsightChartPage';
+import Notification from './pages/notification/Notification';
+import TermsPage from './components/setting/TermsPage';
+import Setting from './pages/setting/SettingPage';
 
 function App() {
     return (
         <BrowserRouter>
-            <GlobalStyle />
+            {/* <GlobalStyle /> */}
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/onboarding" element={<Onboarding />} />
@@ -35,6 +38,10 @@ function App() {
                 <Route path="/recorddate" element={<RecordDate />} />
                 <Route path="/insight" element={<Insight />} />
                 <Route path="/insightchart" element={<InsightChart />} />
+                <Route path="/notification" element={<Notification />} />
+                <Route path="/termspage" element={<TermsPage />} />
+                <Route path="/setting" element={<Setting />} />
+                <Route path="/settingpage" element={<Setting />} />
             </Routes>
         </BrowserRouter>
     );

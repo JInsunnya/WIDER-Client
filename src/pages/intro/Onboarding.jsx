@@ -6,8 +6,8 @@ import Logo from '../../assets/Logo.png';
 const Onboarding = () => {
     const navigate = useNavigate();
 
-    const goToSignUp = () => {
-        navigate('/signup');
+    const goToTermsAgreement = () => {
+        navigate('/TermsAgreement');
     };
 
     const goToLogin = () => {
@@ -23,7 +23,7 @@ const Onboarding = () => {
                 내 생각을 키워주는 AI 파트너 <br />
                 지금 시작해 보세요!
             </On.Title>
-            <On.StartButton onClick={goToSignUp}>시작하기</On.StartButton>
+            <On.StartButton onClick={goToTermsAgreement}>시작하기</On.StartButton>
             <On.Login>
                 이미 계정이 있으신가요?
                 <On.LoginButton onClick={goToLogin}>로그인</On.LoginButton>

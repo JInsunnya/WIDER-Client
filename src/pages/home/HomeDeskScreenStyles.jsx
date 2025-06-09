@@ -28,9 +28,10 @@ export const Title = styled.div`
 export const Question = styled.div`
     background-color: #e6f7ff;
     border-radius: 100px;
-    height: 200px;
+    height: 80px;
     width: 650px;
     font-size: 30px;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: center;

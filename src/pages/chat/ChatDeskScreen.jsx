@@ -1,30 +1,142 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { startChatApi, respondChatApi, endChatApi } from '../../api/chat/ChatApi';
+import { generateReportApi } from '../../api/report/ReportApi';
 import * as Cd from './ChatDeskScreenStyles.jsx';
 import HomeDeskHeader from '../../components/header/HomeDeskHeader';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Send from '../../assets/Send.png';
 
 const ChatDesk = () => {
+    const token = useSelector((state) => state.user.token);
+    const [chatData, setChatData] = useState(null);
+    const [chatLog, setChatLog] = useState([]);
+    const [userAnswer, setUserAnswer] = useState('');
+    const [isComplete, setIsComplete] = useState(false);
+    const [summary, setSummary] = useState(null);
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        const fetchChatStart = async () => {
+            try {
+                const data = await startChatApi(token);
+                setChatData(data);
+                setChatLog([{ sender: 'bot', text: data.question }]);
+            } catch (error) {
+                console.error('데스크 채팅 시작 실패:', error);
+            }
+        };
+
+        fetchChatStart();
+    }, [token]);
+
+    const handleSendAnswer = async () => {
+        if (!chatData || userAnswer.trim() === '') return;
+
+        const payload = {
+            session_id: chatData.session_id,
+            topic: chatData.topic,
+            current_level: chatData.current_level,
+            user_answer: userAnswer,
+        };
+
+        try {
+            // 사용자 답변 추가
+            setChatLog((prev) => [...prev, { sender: 'user', text: userAnswer }]);
+            setUserAnswer('');
+            if (textareaRef.current) textareaRef.current.style.height = 'auto';
+
+            const response = await respondChatApi(token, payload);
+
+            // 다음 질문 추가
+            setChatData(response);
+            setChatLog((prev) => [...prev, { sender: 'bot', text: response.question }]);
+
+            if (response.is_complete) {
+                setIsComplete(true);
+
+                const endPayload = {
+                    session_id: response.session_id,
+                    topic: response.topic,
+                    current_level: response.current_level,
+                    question: response.question,
+                };
+
+                const endResponse = await endChatApi(token, endPayload);
+                setSummary(endResponse);
+                console.log('종료 응답:', endResponse);
+
+                try {
+                    const reportPayload = {
+                        report_id: crypto.randomUUID(),
+                        session_id: chatData.session_id,
+                        report: endResponse,
+                    };
+
+                    const generatedReport = await generateReportApi(chatData.session_id, token, reportPayload);
+                    console.log('리포트 생성 완료:', generatedReport);
+                } catch (err) {
+                    console.error('리포트 생성 실패:', err);
+                }
+            }
+        } catch (err) {
+            console.error('응답 처리 실패:', err);
+        }
+    };
+
     return (
         <Cd.Container>
-            <HomeDeskHeader />
+            <HomeDeskHeader sessionId={chatData?.session_id} />
             <Cd.Content>
-                <Cd.Date>2025/03/25</Cd.Date>
-                <Cd.Chat>
-                    <Cd.Chatbot>기본 소득이란 무엇일까?</Cd.Chatbot>
-                    <Cd.ChatUser>
-                        음... 아무 일도 하지 않아도 모든 사람에게 일정한 돈을 주는 제도인 것 같아.
-                    </Cd.ChatUser>
-                </Cd.Chat>
+                <Cd.Date>{new Date().toISOString().split('T')[0]}</Cd.Date>
+                {chatLog.map((chat, index) =>
+                    chat.sender === 'bot' ? (
+                        <Cd.Chatbot key={index}>{chat.text}</Cd.Chatbot>
+                    ) : (
+                        <Cd.ChatUser key={index}>{chat.text}</Cd.ChatUser>
+                    )
+                )}
+                {isComplete && summary && (
+                    <Cd.SummaryBox>
+                        <h4>대화 요약</h4>
+                        <p>{summary.feedback}</p>
+                    </Cd.SummaryBox>
+                )}
             </Cd.Content>
-            <Cd.InputBox>
-                <Cd.InputWrapper>
-                    <Cd.Input type="text" />
-                    <Cd.Send>
-                        <img src={Send} />
-                    </Cd.Send>
-                </Cd.InputWrapper>
-            </Cd.InputBox>
+            {!isComplete && (
+                <>
+                    <Cd.InputBackground />
+                    <Cd.InputBox>
+                        <Cd.InputWrapper>
+                            <Cd.Input
+                                ref={textareaRef}
+                                value={userAnswer}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setUserAnswer(value);
+
+                                    const el = textareaRef.current;
+                                    el.style.height = '20px';
+                                    if (value !== '') {
+                                        el.style.height = el.scrollHeight + 'px';
+                                    }
+                                }}
+                                placeholder="답변을 입력하세요..."
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleSendAnswer();
+                                    }
+                                }}
+                            />
+
+                            <Cd.Send onClick={handleSendAnswer}>
+                                <img src={Send} />
+                            </Cd.Send>
+                        </Cd.InputWrapper>
+                    </Cd.InputBox>
+                </>
+            )}
             <Sidebar />
         </Cd.Container>
     );

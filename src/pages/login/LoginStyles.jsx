@@ -10,11 +10,11 @@ export const Container = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const Content = styled.div`
-    margin-top: 150px;
+    margin-top: 130px;
     display: flex;
     flex-direction: column;
     margin-left: 10%;
@@ -43,7 +43,7 @@ export const Input = styled.input`
 
     &:focus {
         outline: none;
-        border: 2px solid #0a84ff;
+        border: 2px solid #6ba9ec;
     }
 `;
 
@@ -51,12 +51,12 @@ export const StartButton = styled.div`
     font-size: 22px;
     font-weight: bold;
     color: white;
-    background-color: #0a84ff;
+    background-color: #6ba9ec;
     border-radius: 20px;
     width: 90%;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20%;
+    margin-top: 40%;
 `;

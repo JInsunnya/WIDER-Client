@@ -12,8 +12,8 @@ export const Container = styled.div`
     justify-content: space-around;
     align-items: center;
     text-align: center;
-    background-color: #eeebeb;
-    z-index: 10;
+    background-color: #eeecec;
+    z-index: 100;
     gap: 20px;
 `;
 
@@ -33,7 +33,7 @@ export const RecordImg = styled.div`
 `;
 
 export const RecordText = styled.div`
-    color: ${({ isActive }) => (isActive ? '#0A84FF' : '#ada7a7')};
+    color: ${({ isActive }) => (isActive ? '#6BA9EC' : '#ada7a7')};
     font-size: 16px;
 `;
 
@@ -54,7 +54,7 @@ export const HomeImg = styled.div`
 `;
 
 export const HomeText = styled.div`
-    color: ${({ isActive }) => (isActive ? '#0A84FF' : '#ada7a7')};
+    color: ${({ isActive }) => (isActive ? '#6BA9EC' : '#ada7a7')};
     font-size: 16px;
 `;
 
@@ -74,6 +74,6 @@ export const InsightImg = styled.div`
 `;
 
 export const InsightText = styled.div`
-    color: ${({ isActive }) => (isActive ? '#0A84FF' : '#ada7a7')};
+    color: ${({ isActive }) => (isActive ? '#6BA9EC' : '#ada7a7')};
     font-size: 16px;
 `;

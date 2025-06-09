@@ -13,11 +13,11 @@ export const Container = styled.div`
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 `;
 
 export const Header = styled.div`
-    background-color: #d8eaff;
+    background-color: #91c0f2;
     position: fixed;
     top: 0;
     width: 393px;
@@ -32,31 +32,57 @@ export const Header = styled.div`
 export const LogoIcon = styled.div`
     img {
         width: 70px;
-        height: 60px;
+        height: 70px;
     }
     margin-left: 20px;
 `;
 
 export const HeaderText = styled.div`
+    position: relative;
+    width: 180px;
+    height: 50px;
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     gap: 5px;
+    color: #4e4e4e;
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: -25px;
 `;
 
 export const ServiceName = styled.div`
-    font-size: 24px;
+    /* position: relative;
+    z-index: 1; */
+    font-weight: bold;
+    font-size: 12px;
+    color: #4e4e4e;
 `;
 
 export const ServiceTagline = styled.div`
-    font-size: 13px;
+    /* position: relative;
+    z-index: 1; */
+    font-size: 12px;
+    color: #4e4e4e;
+`;
+
+export const BackgroundImg = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 50px;
+    object-fit: contain;
+    z-index: 0;
 `;
 
 export const BellOff = styled.div`
     img {
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
+        opacity: 0.5;
     }
     margin-right: 20px;
     cursor: pointer;
@@ -92,6 +118,7 @@ export const Question = styled.div`
     padding: 40px;
     border-radius: 110px;
     font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
 `;
 

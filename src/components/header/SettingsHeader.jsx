@@ -8,6 +8,7 @@ import Rectangle from '../../assets/Rectangle.svg';
 import Setting from '../../assets/Setting.png';
 
 const SettingsHeader = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const user = useSelector((state) => state.user);
     const [showDropdown, setShowDropdown] = useState(false);
