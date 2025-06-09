@@ -1,11 +1,33 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getReportBySessionIdApi } from '../../api/report/ReportApi';
 import * as R from './ReportScreenStyles.jsx';
 import ArrowLeft from '../../assets/ArrowLeft.png';
 import Line from '../../assets/Line.png';
 
 const Report = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const token = useSelector((state) => state.user.token);
+    const [report, setReport] = useState(null);
+
+    const sessionId = location.state?.sessionId; // Chat에서 전달한 sessionId
+
+    useEffect(() => {
+        const fetchReport = async () => {
+            try {
+                const res = await getReportBySessionIdApi(sessionId, token);
+                setReport(res);
+            } catch (err) {
+                console.error('리포트 불러오기 실패:', err);
+            }
+        };
+
+        if (sessionId) {
+            fetchReport();
+        }
+    }, [sessionId, token]);
 
     return (
         <R.Container>
@@ -13,15 +35,13 @@ const Report = () => {
                 <R.ArrowLeft onClick={() => navigate(-1)}>
                     <img src={ArrowLeft} />
                 </R.ArrowLeft>
-                <R.HeaderText>2025 / 03 / 25 Report</R.HeaderText>
+                {/* <R.HeaderText>2025 / 03 / 25 Report</R.HeaderText> */}
+                <R.HeaderText>{new Date().toISOString().split('T')[0]} Report</R.HeaderText>
             </R.Header>
-            <R.Content>
+            {/* <R.Content>
                 <R.Level>Level 2</R.Level>
                 <R.Feedback>
                     <R.FeedbackTitle>Understand: 의미를 파악하고 해석</R.FeedbackTitle>
-                    {/* <R.FeedbackContent>
-                    대선 후보 단일화에 대한 여러 측면을 탐구하며, 주요 후보와 장단점, 교훈을 바탕으로 적용 방안, 정책 상호작용 분석, 정치적 영향 평가, 그리고 새로운 전략 설계 요소를 제시했습니다.
-                    </R.FeedbackContent> */}
                 </R.Feedback>
                 <R.Line>
                     <img src={Line} />
@@ -81,9 +101,73 @@ const Report = () => {
                         최소화하는 전략이 필요합니다. 또한, 과거 사례를 분석하여 민주적 다양성을 유지하는 방안을
                         모색하겠습니다."
                     </R.ExampleContent>
-                    {/* <R.ExampleContent>"자동화로 일자리가 줄어드는 상황에서..."</R.ExampleContent> */}
                 </R.Example>
-            </R.Content>
+            </R.Content> */}
+            {report ? (
+                <R.Content>
+                    <R.Level>Level 2</R.Level>
+
+                    <R.Feedback>
+                        <R.FeedbackTitle>📝 요약</R.FeedbackTitle>
+                        <R.FeedbackContent>{report.raw_data.summary}</R.FeedbackContent>
+                    </R.Feedback>
+
+                    <R.Line>
+                        <img src={Line} />
+                    </R.Line>
+
+                    <R.Summary>
+                        <R.SummaryTitle>이번 대화를 짧게 요약해드릴게요!</R.SummaryTitle>
+                        <R.SummaryContent>{report.formatted_report}</R.SummaryContent>
+                    </R.Summary>
+
+                    <R.Line>
+                        <img src={Line} />
+                    </R.Line>
+
+                    <R.Suggestion>
+                        <R.SuggestionTitle>이런 점이 좋았어요!</R.SuggestionTitle>
+                        {report.raw_data.strengths.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                                <R.SuggestionSubTitle>{item.title}</R.SuggestionSubTitle>
+                                <R.SuggestionContent>{item.description}</R.SuggestionContent>
+                                <R.SuggestionContent>{item.example}</R.SuggestionContent>
+                            </React.Fragment>
+                        ))}
+                    </R.Suggestion>
+
+                    <R.Line>
+                        <img src={Line} />
+                    </R.Line>
+
+                    <R.Suggestion>
+                        <R.SuggestionTitle>이렇게 해 보는 거 어때요?</R.SuggestionTitle>
+                        {report.raw_data.weaknesses.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                                <R.SuggestionSubTitle>{item.title}</R.SuggestionSubTitle>
+                                <R.SuggestionContent>{item.description}</R.SuggestionContent>
+                                <R.SuggestionContent>{item.suggestion}</R.SuggestionContent>
+                            </React.Fragment>
+                        ))}
+                        {report.raw_data.suggestions.map((item, idx) => (
+                            <React.Fragment key={idx}>
+                                <R.SuggestionSubTitle>{item.title}</R.SuggestionSubTitle>
+                                <R.SuggestionContent>{item.description}</R.SuggestionContent>
+                                <R.SuggestionContent>{item.resources}</R.SuggestionContent>
+                                {item.questions.map((q, i) => (
+                                    <R.SuggestionContent key={i}>{q}</R.SuggestionContent>
+                                ))}
+                            </React.Fragment>
+                        ))}
+                    </R.Suggestion>
+
+                    <R.Example>
+                        <R.ExampleContent>{report.raw_data.revised_suggestion}</R.ExampleContent>
+                    </R.Example>
+                </R.Content>
+            ) : (
+                <p style={{ padding: '20px' }}>리포트를 불러오는 중입니다...</p>
+            )}
         </R.Container>
     );
 };
