@@ -54,16 +54,12 @@ export const HeaderText = styled.div`
 `;
 
 export const ServiceName = styled.div`
-    /* position: relative;
-    z-index: 1; */
     font-weight: bold;
     font-size: 12px;
     color: #4e4e4e;
 `;
 
 export const ServiceTagline = styled.div`
-    /* position: relative;
-    z-index: 1; */
     font-size: 12px;
     color: #4e4e4e;
 `;
