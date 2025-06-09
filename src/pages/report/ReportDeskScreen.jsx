@@ -1,5 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getReportBySessionIdApi } from '../../api/report/ReportApi';
 import * as Rd from './ReportDeskScreenStyles.jsx';
 import Sidebar from '../../components/sidebar/Sidebar';
 import ArrowLeft from '../../assets/ArrowLeft.png';
@@ -7,6 +9,28 @@ import LineVertical from '../../assets/LineVertical.png';
 
 const ReportDesk = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const token = useSelector((state) => state.user.token);
+    const sessionId = location.state?.sessionId;
+    const [report, setReport] = useState(null);
+
+    useEffect(() => {
+        const fetchReport = async () => {
+            if (!sessionId) {
+                console.warn('sessionId 없음');
+                return;
+            }
+
+            try {
+                const res = await getReportBySessionIdApi(sessionId, token);
+                setReport(res);
+            } catch (err) {
+                console.error('리포트 조회 실패:', err);
+            }
+        };
+
+        fetchReport();
+    }, [sessionId, token]);
 
     return (
         <Rd.Container>
@@ -14,9 +38,10 @@ const ReportDesk = () => {
                 <Rd.ArrowLeft onClick={() => navigate(-1)}>
                     <img src={ArrowLeft} />
                 </Rd.ArrowLeft>
-                <Rd.HeaderText>2025 / 03 / 25 Report</Rd.HeaderText>
+                {/* <Rd.HeaderText>2025 / 03 / 25 Report</Rd.HeaderText> */}
+                <Rd.HeaderText>{new Date().toISOString().split('T')[0]} Report</Rd.HeaderText>
             </Rd.Header>
-            <Rd.Content>
+            {/* <Rd.Content>
                 <Rd.Level>Level 2</Rd.Level>
                 <Rd.Feedback>
                     <Rd.FeedbackTitle>Understand: 의미를 파악하고 해석</Rd.FeedbackTitle>
@@ -79,11 +104,71 @@ const ReportDesk = () => {
                                 통해 표 이동을 최소화하는 전략이 필요합니다. 또한, 과거 사례를 분석하여 민주적 다양성을
                                 유지하는 방안을 모색하겠습니다."
                             </Rd.ExampleContent>
-                            {/* <Rd.ExampleContent>"자동화로 일자리가 줄어드는 상황에서..."</Rd.ExampleContent> */}
                         </Rd.Example>
                     </Rd.RightColumn>
                 </Rd.Grid>
-            </Rd.Content>
+            </Rd.Content> */}
+            {report ? (
+                <Rd.Content>
+                    <Rd.Level>{report.level || 'Level ?'}</Rd.Level>
+                    <Rd.Feedback>
+                        <Rd.FeedbackTitle>{report.feedback_type || '피드백 유형 없음'}</Rd.FeedbackTitle>
+                    </Rd.Feedback>
+
+                    <Rd.Grid>
+                        <Rd.LeftColumn>
+                            <Rd.Summary>
+                                <Rd.SummaryTitle>이번 대화를 짧게 요약해드릴게요!</Rd.SummaryTitle>
+                                <Rd.SummaryContent>{report.raw_data.summary}</Rd.SummaryContent>
+                            </Rd.Summary>
+
+                            <Rd.Suggestion>
+                                <Rd.SuggestionTitle>이런 점이 좋았어요!</Rd.SuggestionTitle>
+                                {report.raw_data.strengths.map((item, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <Rd.SuggestionSubTitle>{item.title}</Rd.SuggestionSubTitle>
+                                        <Rd.SuggestionContent>{item.description}</Rd.SuggestionContent>
+                                        <Rd.SuggestionContent>{item.example}</Rd.SuggestionContent>
+                                    </React.Fragment>
+                                ))}
+                            </Rd.Suggestion>
+                        </Rd.LeftColumn>
+
+                        <Rd.LineVertical>
+                            <img src={LineVertical} />
+                        </Rd.LineVertical>
+
+                        <Rd.RightColumn>
+                            <Rd.Suggestion>
+                                <Rd.SuggestionTitle>이렇게 해 보는 거 어때요?</Rd.SuggestionTitle>
+                                {report.raw_data.weaknesses.map((item, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <Rd.SuggestionSubTitle>{item.title}</Rd.SuggestionSubTitle>
+                                        <Rd.SuggestionContent>{item.description}</Rd.SuggestionContent>
+                                        <Rd.SuggestionContent>{item.suggestion}</Rd.SuggestionContent>
+                                    </React.Fragment>
+                                ))}
+                                {report.raw_data.suggestions.map((item, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <Rd.SuggestionSubTitle>{item.title}</Rd.SuggestionSubTitle>
+                                        <Rd.SuggestionContent>{item.description}</Rd.SuggestionContent>
+                                        <Rd.SuggestionContent>{item.resources}</Rd.SuggestionContent>
+                                        {item.questions.map((q, i) => (
+                                            <Rd.SuggestionContent key={i}>{q}</Rd.SuggestionContent>
+                                        ))}
+                                    </React.Fragment>
+                                ))}
+                            </Rd.Suggestion>
+
+                            <Rd.Example>
+                                <Rd.ExampleContent>{report.raw_data.revised_suggestion}</Rd.ExampleContent>
+                            </Rd.Example>
+                        </Rd.RightColumn>
+                    </Rd.Grid>
+                </Rd.Content>
+            ) : (
+                <p style={{ padding: '20px' }}>리포트를 불러오는 중입니다...</p>
+            )}
             <Sidebar />
         </Rd.Container>
     );

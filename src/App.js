@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import GlobalStyle from './common/GlobalStyles';
+// import GlobalStyle from './common/GlobalStyles';
 import Landing from './pages/intro/Landing';
 import Onboarding from './pages/intro/Onboarding';
 import TermsAgreement from './pages/signup/TermsAgreement';
@@ -22,7 +22,7 @@ import Setting from './pages/setting/SettingPage';
 function App() {
     return (
         <BrowserRouter>
-            <GlobalStyle />
+            {/* <GlobalStyle /> */}
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/onboarding" element={<Onboarding />} />

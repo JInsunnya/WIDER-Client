@@ -50,18 +50,22 @@ export const HeaderText = styled.div`
     color: #4e4e4e;
     font-weight: bold;
     font-size: 12px;
-    padding: 10px 10px;
     margin-left: -25px;
 `;
 
 export const ServiceName = styled.div`
-    position: relative;
-    z-index: 1;
+    /* position: relative;
+    z-index: 1; */
+    font-weight: bold;
+    font-size: 12px;
+    color: #4e4e4e;
 `;
 
 export const ServiceTagline = styled.div`
-    position: relative;
-    z-index: 1;
+    /* position: relative;
+    z-index: 1; */
+    font-size: 12px;
+    color: #4e4e4e;
 `;
 
 export const BackgroundImg = styled.img`

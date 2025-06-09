@@ -19,11 +19,11 @@ export const TopNav = styled.div`
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-top: 0px;
+    margin-top: -10px;
 `;
 
 export const BottomNav = styled.div`
-    margin-top: 180px;
+    margin-top: 250px;
 `;
 
 export const Chat = styled.div`
