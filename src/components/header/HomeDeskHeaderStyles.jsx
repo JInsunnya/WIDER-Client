@@ -88,22 +88,3 @@ export const TextRecord = styled.div`
     position: relative;
     text-align: center;
 `;
-
-export const Report = styled.div`
-    img {
-        width: 70px;
-        height: 70px;
-    }
-    margin-left: auto;
-    margin-right: 50px;
-    cursor: pointer;
-`;
-
-export const TextRecord = styled.div`
-    font-weight: bold;
-    font-size: 18px;
-    color: #4e4e4e;
-    z-index: 1;
-    position: relative;
-    text-align: center;
-`;
