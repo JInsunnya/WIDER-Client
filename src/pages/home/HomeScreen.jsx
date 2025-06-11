@@ -15,7 +15,12 @@ const Home = () => {
     const [todayTopic, setTodayTopic] = useState('');
 
     const goToChat = () => {
-        navigate('/chat');
+        const sessionId = localStorage.getItem('latest_session_id');
+        if (sessionId) {
+            navigate('/chat', { state: { sessionId } });
+        } else {
+            navigate('/chat');
+        }
     };
 
     const goToReport = () => {
