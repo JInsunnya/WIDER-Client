@@ -17,21 +17,24 @@ const ChatDesk = () => {
     const [isComplete, setIsComplete] = useState(false);
     const [summary, setSummary] = useState(null);
     const [isSending, setIsSending] = useState(false);
+    const chatEndRef = useRef(null);
+    const [completionMessage, setCompletionMessage] = useState('');
+    const sessionId = location.state?.sessionId || localStorage.getItem('latest_session_id');
     const textareaRef = useRef(null);
 
-    useEffect(() => {
-        const fetchChatStart = async () => {
-            try {
-                const data = await startChatApi(token);
-                setChatData(data);
-                setChatLog([{ sender: 'bot', text: data.question }]);
-            } catch (error) {
-                console.error('채팅 시작 실패:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchChatStart = async () => {
+    //         try {
+    //             const data = await startChatApi(token);
+    //             setChatData(data);
+    //             setChatLog([{ sender: 'bot', text: data.question }]);
+    //         } catch (error) {
+    //             console.error('채팅 시작 실패:', error);
+    //         }
+    //     };
 
-        fetchChatStart();
-    }, [token]);
+    //     fetchChatStart();
+    // }, [token]);
 
     const handleSendAnswer = async () => {
         if (!chatData || userAnswer.trim() === '') return;
@@ -56,7 +59,9 @@ const ChatDesk = () => {
 
             // 다음 질문 추가
             setChatData(response);
-            setChatLog((prev) => [...prev, { sender: 'bot', text: response.question }]);
+            if (response.question?.trim()) {
+                setChatLog((prev) => [...prev, { sender: 'bot', text: response.question }]);
+            }
 
             if (response.is_complete) {
                 setIsComplete(true);
@@ -70,6 +75,7 @@ const ChatDesk = () => {
 
                 const endResponse = await endChatApi(token, endPayload);
                 setSummary(endResponse);
+                setCompletionMessage(endResponse.message);
                 console.log('종료 응답:', endResponse);
 
                 try {
@@ -92,34 +98,95 @@ const ChatDesk = () => {
         }
     };
 
-    useEffect(() => {
-        const sessionId = location?.state?.sessionId; // 이전 세션 ID 전달 여부 확인
+    // useEffect(() => {
+    //     const fetchChatHistory = async () => {
+    //         const sessionId = location.state?.sessionId; // report에서 온 경우
+    //         console.log('받은 sessionId:', sessionId);
+    //         if (!sessionId) return;
 
-        const fetchChat = async () => {
+    //         try {
+    //             const data = await getChatHistoryApi(sessionId, token);
+    //             const formattedChat = data.messages.map((msg) => ({
+    //                 sender: msg.speaker === 'AI' ? 'bot' : 'user',
+    //                 text: msg.content,
+    //             }));
+    //             setChatLog(formattedChat);
+    //             setChatData({ session_id: data.session_id }); // 최소한으로 필요한 필드
+    //             setIsComplete(true); // 기록은 완료된 세션이므로 입력창 숨기기
+    //         } catch (err) {
+    //             console.error('채팅 기록 불러오기 실패:', err);
+    //         }
+    //     };
+
+    //     fetchChatHistory();
+    // }, [token]);
+
+    useEffect(() => {
+        const initChat = async () => {
             try {
                 if (sessionId) {
-                    // 기록 불러오기
+                    console.log('기존 세션 불러오기:', sessionId);
                     const data = await getChatHistoryApi(sessionId, token);
+                    console.log('getChatHistoryApi 응답:', data);
+
+                    // 세션이 유효하지 않거나 기록이 없으면 새로운 채팅 시작
+                    if (!data.messages || data.messages.length === 0) {
+                        console.log('기록 없으므로 새로운 채팅 시작');
+                        localStorage.removeItem('latest_session_id');
+                        throw new Error('기록 없음'); // 아래 새 시작 로직으로 이동
+                    }
+
+                    if (!data.topic || !data.current_level) {
+                        console.warn('topic이나 current_level 없으므로 새 startChat 호출');
+                        localStorage.removeItem('latest_session_id');
+
+                        const newData = await startChatApi(token);
+                        setChatData(newData);
+                        setChatLog([{ sender: 'bot', text: newData.question }]);
+                        localStorage.setItem('latest_session_id', newData.session_id);
+                        return;
+                    }
+
                     const formattedChat = data.messages.map((msg) => ({
                         sender: msg.speaker === 'AI' ? 'bot' : 'user',
                         text: msg.content,
                     }));
+
                     setChatLog(formattedChat);
-                    setChatData({ session_id: data.session_id });
-                    setIsComplete(true);
-                } else {
-                    // 새로 시작
+                    setChatData({
+                        session_id: data.session_id,
+                        topic: data.topic,
+                        current_level: data.current_level,
+                    });
+                    setIsComplete(data.is_complete); // 서버에서 complete 알려준 경우
+                    return;
+                }
+
+                throw new Error('sessionId 없음');
+            } catch (err) {
+                console.log('새 세션 시작');
+                try {
                     const data = await startChatApi(token);
                     setChatData(data);
+                    console.log('startChat 응답:', data);
                     setChatLog([{ sender: 'bot', text: data.question }]);
+                    localStorage.setItem('latest_session_id', data.session_id);
+                } catch (startErr) {
+                    console.error('새로운 채팅 시작 실패:', startErr);
                 }
-            } catch (error) {
-                console.error('채팅 데이터 불러오기 실패:', error);
             }
         };
 
-        fetchChat();
-    }, [token]);
+        initChat();
+    }, [sessionId, token]);
+
+    const scrollToBottom = () => {
+        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatLog]);
 
     return (
         <Cd.Container>
@@ -133,11 +200,12 @@ const ChatDesk = () => {
                         <Cd.ChatUser key={index}>{chat.text}</Cd.ChatUser>
                     )
                 )}
-                {isComplete && summary && (
-                    <Cd.SummaryBox>
-                        <h4>대화 요약</h4>
-                        <p>{summary.feedback}</p>
-                    </Cd.SummaryBox>
+                <div ref={chatEndRef} />
+                {isComplete && (
+                    <div style={{ marginTop: '-20px', textAlign: 'center', lineHeight: '1.2' }}>
+                        <p>오늘의 대화가 종료되었습니다.</p>
+                        <p>리포트에서 오늘의 사고 흐름을 확인해보세요!</p>
+                    </div>
                 )}
             </Cd.Content>
             {!isComplete && (
