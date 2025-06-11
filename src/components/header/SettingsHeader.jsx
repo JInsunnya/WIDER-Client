@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { changePassword } from '../../store/userSlice';
+import { changePassword, serverLogout, logout, deleteUser } from '../../store/userSlice';
 import * as Sh from './SettingsHeaderStyles.jsx';
 import Logo from '../../assets/LogoIcon.png';
 import Rectangle from '../../assets/Rectangle.svg';
@@ -18,15 +18,22 @@ const SettingsHeader = () => {
         newPassword1: '',
         newPassword2: '',
     });
+    const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
     const dispatch = useDispatch();
     const token = useSelector((state) => state.user.token);
 
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleteForm, setDeleteForm] = useState({
+        user_id: '',
+        password: '',
+    });
+
     const titleText =
         location.pathname === '/insight'
-            ? '상반기 히스토그램을 확인 해 보세요!'
+            ? 'WIDER와 함께한 사고 연습,\n그동안의 레벨 변화는 어땠을까요?'
             : location.pathname === '/insightchart'
-            ? '월별 히스토그램을 확인해 보세요!'
+            ? 'WIDER와 함께한 이번 달 사고 연습,\n내 사고 레벨은 어디쯤일까요?'
             : '리포트 기록을 확인해 보세요!';
 
     const toggleDropdown = () => {
@@ -83,6 +90,50 @@ const SettingsHeader = () => {
         }
     };
 
+    const handleLogoutClick = () => {
+        setShowDropdown(false);
+        setShowLogoutConfirm(true);
+    };
+
+    const confirmLogout = async () => {
+        try {
+            localStorage.removeItem('latest_session_id');
+            await dispatch(serverLogout(token));
+            dispatch(logout());
+            navigate('/');
+        } catch (e) {
+            alert('로그아웃 실패');
+        }
+    };
+
+    const cancelLogout = () => {
+        setShowLogoutConfirm(false);
+    };
+
+    const handleDeleteInputChange = (e) => {
+        const { name, value } = e.target;
+        setDeleteForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!deleteForm.user_id || !deleteForm.password) {
+            alert('아이디와 비밀번호를 입력해주세요.');
+            return;
+        }
+
+        try {
+            localStorage.removeItem('latest_session_id');
+            await dispatch(deleteUser(deleteForm));
+            dispatch(logout());
+            navigate('/');
+        } catch (e) {
+            alert('회원 탈퇴 실패');
+        }
+    };
+
     return (
         <>
             <Sh.Container>
@@ -113,7 +164,15 @@ const SettingsHeader = () => {
                     <Sh.ItemRow>채팅 알림 기능</Sh.ItemRow>
                     <Sh.SectionTitle>서비스</Sh.SectionTitle>
                     <Sh.ItemRow onClick={goToTermsPage}>서비스 이용 약관</Sh.ItemRow>
-                    <Sh.ItemRow>로그아웃</Sh.ItemRow>
+                    <Sh.ItemRow onClick={handleLogoutClick}>로그아웃</Sh.ItemRow>
+                    <Sh.ItemRow
+                        onClick={() => {
+                            setShowDropdown(false);
+                            setShowDeleteConfirm(true);
+                        }}
+                    >
+                        회원탈퇴
+                    </Sh.ItemRow>
                 </Sh.DropdownBox>
             )}
             {showPasswordBox && (
@@ -141,6 +200,29 @@ const SettingsHeader = () => {
                             onChange={handleInputChange}
                         />
                         <Sh.SubmitButton onClick={handleSubmitPasswordChange}>변경하기</Sh.SubmitButton>
+                    </Sh.PasswordBox>
+                </Sh.PasswordOverlay>
+            )}
+            {showDeleteConfirm && (
+                <Sh.PasswordOverlay>
+                    <Sh.PasswordBox>
+                        <Sh.ConfirmText>정말 탈퇴하시겠습니까?</Sh.ConfirmText>
+                        <Sh.Input
+                            type="text"
+                            name="user_id"
+                            placeholder="아이디 입력"
+                            value={deleteForm.user_id}
+                            onChange={handleDeleteInputChange}
+                        />
+                        <Sh.Input
+                            type="password"
+                            name="password"
+                            placeholder="비밀번호 입력"
+                            value={deleteForm.password}
+                            onChange={handleDeleteInputChange}
+                        />
+                        <Sh.LogoutButton onClick={handleConfirmDelete}>탈퇴 확인</Sh.LogoutButton>
+                        <Sh.LogoutButton onClick={() => setShowDeleteConfirm(false)}>취소</Sh.LogoutButton>
                     </Sh.PasswordBox>
                 </Sh.PasswordOverlay>
             )}
