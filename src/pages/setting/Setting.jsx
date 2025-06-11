@@ -43,6 +43,7 @@ const Setting = () => {
 
         try {
             await dispatch(serverLogout(token));
+            localStorage.removeItem('latest_session_id');
             dispatch(logout());
             navigate('/');
         } catch (e) {
@@ -56,6 +57,7 @@ const Setting = () => {
 
         try {
             await dispatch(deleteUser({ user_id: user.id, password: deletePassword }));
+            localStorage.removeItem('latest_session_id');
             dispatch(logout());
             navigate('/');
         } catch (e) {

@@ -97,6 +97,7 @@ const SettingsHeader = () => {
 
     const confirmLogout = async () => {
         try {
+            localStorage.removeItem('latest_session_id');
             await dispatch(serverLogout(token));
             dispatch(logout());
             navigate('/');
@@ -124,6 +125,7 @@ const SettingsHeader = () => {
         }
 
         try {
+            localStorage.removeItem('latest_session_id');
             await dispatch(deleteUser(deleteForm));
             dispatch(logout());
             navigate('/');
