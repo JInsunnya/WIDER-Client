@@ -60,6 +60,7 @@ export const TitleText = styled.div`
     white-space: nowrap;
     margin-left: -90px;
     z-index: 1;
+    white-space: pre-line;
 `;
 
 export const Right = styled.div`
@@ -132,7 +133,7 @@ export const PasswordBox = styled.div`
 `;
 
 export const Input = styled.input`
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 14px;
@@ -149,6 +150,29 @@ export const SubmitButton = styled.button`
     border: none;
     border-radius: 8px;
     cursor: pointer;
+
+    &:hover {
+        background-color: #4091e8;
+    }
+`;
+
+export const ConfirmText = styled.div`
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const LogoutButton = styled.button`
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+    background-color: #6ba9ec;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 5px;
 
     &:hover {
         background-color: #4091e8;

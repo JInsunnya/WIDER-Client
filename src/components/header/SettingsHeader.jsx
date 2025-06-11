@@ -14,9 +14,9 @@ const SettingsHeader = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showPasswordBox, setShowPasswordBox] = useState(false);
     const [passwords, setPasswords] = useState({
-        currentPassword: '',
-        newPassword1: '',
-        newPassword2: '',
+        current_password: '',
+        new_password1: '',
+        new_password2: '',
     });
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -59,15 +59,15 @@ const SettingsHeader = () => {
 
     const handleSubmitPasswordChange = async () => {
         console.log('현재 전달되는 토큰:', token);
-        console.log('current:', passwords.currentPassword);
-        console.log('new1:', passwords.newPassword1);
-        console.log('new2:', passwords.newPassword2);
+        console.log('currentPassword:', passwords.current_password);
+        console.log('newPassword1:', passwords.new_password1);
+        console.log('newPassword2:', passwords.new_password2);
 
         try {
             const passwordData = {
-                currentPassword: passwords.currentPassword,
-                newPassword1: passwords.newPassword1,
-                newPassword2: passwords.newPassword2,
+                current_password: passwords.current_password,
+                new_password1: passwords.new_password1,
+                new_password2: passwords.new_password2,
             };
 
             console.log('비번 변경 요청에 사용할 토큰:', token);
@@ -78,9 +78,9 @@ const SettingsHeader = () => {
                 alert('비밀번호가 성공적으로 변경되었습니다.');
                 setShowPasswordBox(false);
                 setPasswords({
-                    currentPassword: '',
-                    newPassword1: '',
-                    newPassword2: '',
+                    current_password: '',
+                    new_password1: '',
+                    new_password2: '',
                 });
             } else {
                 alert(resultAction.payload?.message || '비밀번호 변경 실패');
@@ -180,26 +180,35 @@ const SettingsHeader = () => {
                     <Sh.PasswordBox>
                         <Sh.Input
                             type="password"
-                            name="currentPassword"
+                            name="current_password"
                             placeholder="현재 비밀번호"
-                            value={passwords.currentPassword}
+                            value={passwords.current_password}
                             onChange={handleInputChange}
                         />
                         <Sh.Input
                             type="password"
-                            name="newPassword1"
+                            name="new_password1"
                             placeholder="새 비밀번호"
-                            value={passwords.newPassword1}
+                            value={passwords.new_password1}
                             onChange={handleInputChange}
                         />
                         <Sh.Input
                             type="password"
-                            name="newPassword2"
+                            name="new_password2"
                             placeholder="새 비밀번호 확인"
-                            value={passwords.newPassword2}
+                            value={passwords.new_password2}
                             onChange={handleInputChange}
                         />
                         <Sh.SubmitButton onClick={handleSubmitPasswordChange}>변경하기</Sh.SubmitButton>
+                    </Sh.PasswordBox>
+                </Sh.PasswordOverlay>
+            )}
+            {showLogoutConfirm && (
+                <Sh.PasswordOverlay>
+                    <Sh.PasswordBox>
+                        <Sh.ConfirmText>정말 로그아웃하시겠습니까?</Sh.ConfirmText>
+                        <Sh.LogoutButton onClick={confirmLogout}>확인</Sh.LogoutButton>
+                        <Sh.LogoutButton onClick={cancelLogout}>취소</Sh.LogoutButton>
                     </Sh.PasswordBox>
                 </Sh.PasswordOverlay>
             )}

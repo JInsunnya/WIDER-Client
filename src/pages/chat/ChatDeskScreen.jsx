@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { startChatApi, respondChatApi, endChatApi } from '../../api/chat/ChatApi';
+import { useLocation } from 'react-router-dom';
+import { startChatApi, respondChatApi, endChatApi, getChatHistoryApi } from '../../api/chat/ChatApi';
 import { generateReportApi } from '../../api/report/ReportApi';
 import * as Cd from './ChatDeskScreenStyles.jsx';
 import HomeDeskHeader from '../../components/header/HomeDeskHeader';
@@ -8,12 +9,14 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import Send from '../../assets/Send.png';
 
 const ChatDesk = () => {
+    const location = useLocation();
     const token = useSelector((state) => state.user.token);
     const [chatData, setChatData] = useState(null);
     const [chatLog, setChatLog] = useState([]);
     const [userAnswer, setUserAnswer] = useState('');
     const [isComplete, setIsComplete] = useState(false);
     const [summary, setSummary] = useState(null);
+    const [isSending, setIsSending] = useState(false);
     const textareaRef = useRef(null);
 
     useEffect(() => {
@@ -23,7 +26,7 @@ const ChatDesk = () => {
                 setChatData(data);
                 setChatLog([{ sender: 'bot', text: data.question }]);
             } catch (error) {
-                console.error('데스크 채팅 시작 실패:', error);
+                console.error('채팅 시작 실패:', error);
             }
         };
 
@@ -32,6 +35,7 @@ const ChatDesk = () => {
 
     const handleSendAnswer = async () => {
         if (!chatData || userAnswer.trim() === '') return;
+        setIsSending(true);
 
         const payload = {
             session_id: chatData.session_id,
@@ -42,9 +46,11 @@ const ChatDesk = () => {
 
         try {
             // 사용자 답변 추가
-            setChatLog((prev) => [...prev, { sender: 'user', text: userAnswer }]);
+            const userMsg = userAnswer;
             setUserAnswer('');
             if (textareaRef.current) textareaRef.current.style.height = 'auto';
+
+            setChatLog((prev) => [...prev, { sender: 'user', text: userMsg }]);
 
             const response = await respondChatApi(token, payload);
 
@@ -81,8 +87,39 @@ const ChatDesk = () => {
             }
         } catch (err) {
             console.error('응답 처리 실패:', err);
+        } finally {
+            setIsSending(false);
         }
     };
+
+    useEffect(() => {
+        const sessionId = location?.state?.sessionId; // 이전 세션 ID 전달 여부 확인
+
+        const fetchChat = async () => {
+            try {
+                if (sessionId) {
+                    // 기록 불러오기
+                    const data = await getChatHistoryApi(sessionId, token);
+                    const formattedChat = data.messages.map((msg) => ({
+                        sender: msg.speaker === 'AI' ? 'bot' : 'user',
+                        text: msg.content,
+                    }));
+                    setChatLog(formattedChat);
+                    setChatData({ session_id: data.session_id });
+                    setIsComplete(true);
+                } else {
+                    // 새로 시작
+                    const data = await startChatApi(token);
+                    setChatData(data);
+                    setChatLog([{ sender: 'bot', text: data.question }]);
+                }
+            } catch (error) {
+                console.error('채팅 데이터 불러오기 실패:', error);
+            }
+        };
+
+        fetchChat();
+    }, [token]);
 
     return (
         <Cd.Container>
@@ -123,7 +160,7 @@ const ChatDesk = () => {
                                 }}
                                 placeholder="답변을 입력하세요..."
                                 onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                    if (e.key === 'Enter' && !e.shiftKey && !isSending) {
                                         e.preventDefault();
                                         handleSendAnswer();
                                     }

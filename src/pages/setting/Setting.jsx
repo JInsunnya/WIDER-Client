@@ -11,9 +11,9 @@ const Setting = () => {
     const user = useSelector((state) => state.user);
     const [showPasswordBox, setShowPasswordBox] = useState(false);
     const [passwords, setPasswords] = useState({
-        currentPassword: '',
-        newPassword1: '',
-        newPassword2: '',
+        current_password: '',
+        new_password1: '',
+        new_password2: '',
     });
     const dispatch = useDispatch();
     const token = useSelector((state) => state.user.token);
@@ -107,23 +107,23 @@ const Setting = () => {
                             <S.PasswordBox>
                                 <S.PasswordInput
                                     type="password"
-                                    name="currentPassword"
+                                    name="current_password"
                                     placeholder="현재 비밀번호"
-                                    value={passwords.currentPassword}
+                                    value={passwords.current_password}
                                     onChange={handleInputChange}
                                 />
                                 <S.PasswordInput
                                     type="password"
-                                    name="newPassword1"
+                                    name="new_password1"
                                     placeholder="새 비밀번호"
-                                    value={passwords.newPassword1}
+                                    value={passwords.new_password1}
                                     onChange={handleInputChange}
                                 />
                                 <S.PasswordInput
                                     type="password"
-                                    name="newPassword2"
+                                    name="new_password2"
                                     placeholder="새 비밀번호 확인"
-                                    value={passwords.newPassword2}
+                                    value={passwords.new_password2}
                                     onChange={handleInputChange}
                                 />
                                 <S.SubmitButton onClick={handleSubmitPasswordChange}>변경하기</S.SubmitButton>
