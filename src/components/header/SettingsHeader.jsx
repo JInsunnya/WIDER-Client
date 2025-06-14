@@ -29,12 +29,18 @@ const SettingsHeader = () => {
         password: '',
     });
 
-    const titleText =
-        location.pathname === '/insight'
-            ? 'WIDER와 함께한 사고 연습,\n그동안의 레벨 변화는 어땠을까요?'
-            : location.pathname === '/insightchart'
-            ? 'WIDER와 함께한 이번 달 사고 연습,\n내 사고 레벨은 어디쯤일까요?'
-            : '리포트 기록을 확인해 보세요!';
+    // const titleText =
+    //     location.pathname === '/insight'
+    //         ? 'WIDER와 함께한 사고 연습,\n그동안의 레벨 변화는 어땠을까요?'
+    //         : location.pathname === '/insightchart'
+    //         ? 'WIDER와 함께한 이번 달 사고 연습,\n내 사고 레벨은 어디쯤일까요?'
+    //         : '리포트 기록을 확인해 보세요!';
+
+    const isHome = location.pathname === '/home';
+
+    const title = isHome ? '나의 AI 파트너, WIDER와' : '이전 대화를 다시 보고 싶다면?';
+
+    const subtitle = isHome ? '오늘의 대화를 시작해 보세요!' : '기록 목록에서 확인해 보세요!';
 
     const toggleDropdown = () => {
         setShowDropdown((prev) => !prev);
@@ -106,6 +112,24 @@ const SettingsHeader = () => {
         }
     };
 
+    // const confirmLogout = async () => {
+    //     try {
+    //         const sessionId = localStorage.getItem('latest_session_id');
+    //         const sessionDate = localStorage.getItem('latest_session_date');
+
+    //         localStorage.clear();
+
+    //         if (sessionId) localStorage.setItem('latest_session_id', sessionId);
+    //         if (sessionDate) localStorage.setItem('latest_session_date', sessionDate);
+
+    //         await dispatch(serverLogout(token));
+    //         dispatch(logout());
+    //         navigate('/');
+    //     } catch (e) {
+    //         alert('로그아웃 실패');
+    //     }
+    // };
+
     const cancelLogout = () => {
         setShowLogoutConfirm(false);
     };
@@ -145,7 +169,18 @@ const SettingsHeader = () => {
                         <Sh.Rectangle>
                             <img src={Rectangle} />
                         </Sh.Rectangle>
-                        <Sh.TitleText>{titleText}</Sh.TitleText>
+                        <Sh.HeaderText
+                            style={{
+                                position: 'relative',
+                                zIndex: 1,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Sh.ServiceName>{title}</Sh.ServiceName>
+                            <Sh.ServiceTagline>{subtitle}</Sh.ServiceTagline>
+                        </Sh.HeaderText>
                     </Sh.Title>
                 </Sh.Left>
                 <Sh.Right>
@@ -161,7 +196,7 @@ const SettingsHeader = () => {
                         <span>아이디</span> <span style={{ color: '#aaa' }}>{user.id}</span>
                     </Sh.ItemRow>
                     <Sh.ItemRow onClick={handlePasswordChangeClick}>비밀번호 변경</Sh.ItemRow>
-                    <Sh.ItemRow>채팅 알림 기능</Sh.ItemRow>
+                    {/* <Sh.ItemRow>채팅 알림 기능</Sh.ItemRow> */}
                     <Sh.SectionTitle>서비스</Sh.SectionTitle>
                     <Sh.ItemRow onClick={goToTermsPage}>서비스 이용 약관</Sh.ItemRow>
                     <Sh.ItemRow onClick={handleLogoutClick}>로그아웃</Sh.ItemRow>
@@ -200,6 +235,23 @@ const SettingsHeader = () => {
                             onChange={handleInputChange}
                         />
                         <Sh.SubmitButton onClick={handleSubmitPasswordChange}>변경하기</Sh.SubmitButton>
+                        <Sh.SubmitButton
+                            onClick={() => {
+                                setShowPasswordBox(false);
+                                setShowDropdown(false);
+                            }}
+                        >
+                            취소
+                        </Sh.SubmitButton>
+                    </Sh.PasswordBox>
+                </Sh.PasswordOverlay>
+            )}
+            {showLogoutConfirm && (
+                <Sh.PasswordOverlay>
+                    <Sh.PasswordBox>
+                        <Sh.ConfirmText>정말 로그아웃하시겠습니까?</Sh.ConfirmText>
+                        <Sh.LogoutButton onClick={confirmLogout}>확인</Sh.LogoutButton>
+                        <Sh.LogoutButton onClick={cancelLogout}>취소</Sh.LogoutButton>
                     </Sh.PasswordBox>
                 </Sh.PasswordOverlay>
             )}
