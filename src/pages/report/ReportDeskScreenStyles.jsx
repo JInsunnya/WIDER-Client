@@ -56,6 +56,14 @@ export const Level = styled.div`
     margin-left: 100px;
 `;
 
+export const LevelDescription = styled.div`
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+    margin-left: 100px;
+`;
+
 export const Feedback = styled.div`
     color: #383636;
     margin-top: 1%;
@@ -129,19 +137,19 @@ export const Example = styled.div`
 `;
 
 export const ExampleContent = styled.div`
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: bold;
     color: #383636;
     background-color: #dff1ff;
     border-radius: 20px;
     margin-top: 5%;
-    width: 110%;
+    width: 95%;
     min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 16px 12px;
+    padding: 20px 20px;
 `;
 
 export const Grid = styled.div`

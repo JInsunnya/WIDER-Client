@@ -11,8 +11,8 @@ export const Container = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     background-color: #ffffff;
 `;
 
@@ -32,7 +32,7 @@ export const Header = styled.div`
 
 export const ArrowLeft = styled.div`
     position: absolute;
-    left: 40px;
+    left: 10px;
     top: 15px;
     img {
         width: 30px;
@@ -53,7 +53,7 @@ export const Content = styled.div`
     padding: 0 40px 100px 40px;
     overflow-y: auto;
     height: calc(100vh - 60px);
-    width: 100%;
+    width: 80%;
     padding: 0 50px;
     display: flex;
     flex-direction: column;
@@ -64,6 +64,13 @@ export const Level = styled.div`
     font-size: 33px;
     color: #6ba9ec;
     font-weight: bold;
+`;
+
+export const LevelDescription = styled.div`
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
 `;
 
 export const Feedback = styled.div`
@@ -127,17 +134,18 @@ export const Example = styled.div`
 `;
 
 export const ExampleContent = styled.div`
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
     color: #383636;
     background-color: #dff1ff;
     border-radius: 20px;
     margin-top: 5%;
-    width: 100%;
-    height: 80%;
+    margin-bottom: 10%;
+    width: 80%;
+    height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 10%;
+    padding: 7%;
 `;
