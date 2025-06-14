@@ -105,7 +105,7 @@ export const Title = styled.div`
 export const Question = styled.div`
     background-color: #e6f7ff;
     width: 300px;
-    height: 130px;
+    height: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
