@@ -29,22 +29,27 @@ export const Logo = styled.div`
         width: 65px;
         height: 65px;
     }
-    margin-left: 10%;
 `;
 
 export const Title = styled.div`
     position: relative;
+    min-width: 300px;
+    height: 50px;
+    margin-right: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 300px;
-    height: 40px;
+    gap: 5px;
+    color: #4e4e4e;
+    font-weight: bold;
+    font-size: 12px;
     flex-shrink: 0;
 `;
 
 export const Rectangle = styled.div`
     position: absolute;
-    left: 0;
+    left: 10px;
     top: 5;
     img {
         width: 210px;
@@ -58,11 +63,23 @@ export const TitleText = styled.div`
     color: #4e4e4e;
     font-weight: bold;
     white-space: nowrap;
-    margin-left: -90px;
     z-index: 1;
     white-space: pre-line;
 `;
 
+export const ServiceName = styled.div`
+    font-size: 12px;
+    color: #4e4e4e;
+`;
+
+export const ServiceTagline = styled.div`
+    font-size: 12px;
+    color: #4e4e4e;
+`;
+
+export const HeaderText = styled.div`
+    margin-left: -60px;
+`;
 export const Right = styled.div`
     flex: 1;
     display: flex;
