@@ -4,7 +4,7 @@ export const Container = styled.div`
     position: fixed;
     bottom: 0;
     width: 393px;
-    height: 110px;
+    height: 100px;
     padding: 0;
     box-sizing: border-box;
     display: flex;
@@ -27,8 +27,8 @@ export const Record = styled.div`
 
 export const RecordImg = styled.div`
     img {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
     }
 `;
 
@@ -48,8 +48,8 @@ export const Home = styled.div`
 
 export const HomeImg = styled.div`
     img {
-        width: 55px;
-        height: 55px;
+        width: 50px;
+        height: 50px;
     }
 `;
 
@@ -68,8 +68,8 @@ export const Insight = styled.div`
 
 export const InsightImg = styled.div`
     img {
-        width: 50px;
-        height: 50px;
+        width: 48px;
+        height: 48px;
     }
 `;
 
