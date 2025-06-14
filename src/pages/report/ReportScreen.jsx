@@ -11,6 +11,14 @@ const Report = () => {
     const location = useLocation();
     const token = useSelector((state) => state.user.token);
     const [report, setReport] = useState(null);
+    const bloomLevelDescriptions = {
+        1: 'Remember: 사실을 기억하고 열거',
+        2: 'Understand: 의미를 파악하고 해석',
+        3: 'Apply: 개념을 적용하고 실행',
+        4: 'Analyze: 구조를 분석하고 비교',
+        5: 'Evaluate: 판단하고 비판적으로 평가',
+        6: 'Create: 새로운 아이디어를 종합하고 창출',
+    };
 
     const sessionId = location.state?.sessionId; // Chat에서 전달한 sessionId
 
@@ -18,6 +26,7 @@ const Report = () => {
         const fetchReport = async () => {
             try {
                 const res = await getReportBySessionIdApi(sessionId, token);
+                console.log('리포트 전체 데이터:', res);
                 setReport(res);
             } catch (err) {
                 console.error('리포트 불러오기 실패:', err);
@@ -39,21 +48,13 @@ const Report = () => {
             </R.Header>
             {report ? (
                 <R.Content>
-                    <R.Level>Level 2</R.Level>
+                    <R.Level>Level {report.raw_data.bloom_level}</R.Level>
+                    <R.LevelDescription>{bloomLevelDescriptions[report.raw_data.bloom_level]}</R.LevelDescription>
 
                     <R.Feedback>
-                        <R.FeedbackTitle>📝 요약</R.FeedbackTitle>
+                        <R.FeedbackTitle>이번 대화를 짧게 요약해드릴게요!</R.FeedbackTitle>
                         <R.FeedbackContent>{report.raw_data.summary}</R.FeedbackContent>
                     </R.Feedback>
-
-                    <R.Line>
-                        <img src={Line} />
-                    </R.Line>
-
-                    <R.Summary>
-                        <R.SummaryTitle>이번 대화를 짧게 요약해드릴게요!</R.SummaryTitle>
-                        <R.SummaryContent>{report.formatted_report}</R.SummaryContent>
-                    </R.Summary>
 
                     <R.Line>
                         <img src={Line} />
