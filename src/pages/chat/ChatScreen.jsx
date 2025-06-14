@@ -34,21 +34,6 @@ const Chat = () => {
         });
     };
 
-    // useEffect(() => {
-    //     const startChat = async () => {
-    //         try {
-    //             const data = await startChatApi(token);
-    //             setChatData(data);
-    //             setChatLog([{ sender: 'bot', text: data.question }]);
-    //             localStorage.setItem('latest_session_id', data.session_id);
-    //         } catch (error) {
-    //             console.error('채팅 시작 실패:', error);
-    //         }
-    //     };
-
-    //     startChat();
-    // }, [token]);
-
     const handleSendAnswer = async () => {
         if (!chatData || userAnswer.trim() === '') return;
         setIsSending(true);
@@ -56,6 +41,7 @@ const Chat = () => {
         const payload = {
             session_id: chatData.session_id,
             topic: chatData.topic,
+            topic_prompt: chatData.topic_prompt || '',
             current_level: chatData.current_level,
             user_answer: userAnswer,
         };
@@ -72,6 +58,11 @@ const Chat = () => {
             const response = await respondChatApi(token, payload);
 
             setChatData(response);
+
+            if (response.message?.trim()) {
+                setChatLog((prev) => [...prev, { sender: 'bot', text: response.message }]);
+            }
+
             if (response.question?.trim()) {
                 setChatLog((prev) => [...prev, { sender: 'bot', text: response.question }]);
             }
@@ -85,7 +76,7 @@ const Chat = () => {
                     question: response.question,
                 };
                 const endResponse = await endChatApi(token, endPayload);
-                setSummary(endResponse.sumㅌmary);
+                setSummary(endResponse.summary);
                 setCompletionMessage(endResponse.message);
                 console.log('종료 응답:', endResponse);
 
@@ -94,8 +85,14 @@ const Chat = () => {
                     const reportPayload = {
                         report_id: crypto.randomUUID(), // UUID 자동 생성
                         session_id: chatData.session_id,
-                        report: endResponse, // endChat 응답 전체 또는 필요한 필드만
+                        report: {
+                            ...endResponse,
+                            level: chatData.current_level,
+                        },
                     };
+
+                    console.log('리포트 생성 전 payload:', reportPayload);
+                    console.log('endChat 응답 전체:', endResponse);
 
                     const generatedReport = await generateReportApi(chatData.session_id, token, reportPayload);
                     console.log('리포트 생성 완료:', generatedReport);
@@ -112,55 +109,83 @@ const Chat = () => {
     };
 
     // useEffect(() => {
-    //     const fetchChatHistory = async () => {
-    //         console.log('최종 sessionId:', sessionId);
-    //         if (!sessionId) return;
-
+    //     const initChat = async () => {
     //         try {
-    //             const data = await getChatHistoryApi(sessionId, token);
-    //             if (!data.messages || data.messages.length === 0 || !data.is_complete) {
-    //                 localStorage.removeItem('latest_session_id');
+    //             if (sessionId) {
+    //                 console.log('기존 세션 불러오기:', sessionId);
+    //                 const data = await getChatHistoryApi(sessionId, token);
+    //                 console.log('getChatHistoryApi 응답:', data);
+
+    //                 // 세션이 유효하지 않거나 기록이 없으면 새로운 채팅 시작
+    //                 if (!data.messages || data.messages.length === 0) {
+    //                     console.log('기록 없으므로 새로운 채팅 시작');
+    //                     localStorage.removeItem('latest_session_id');
+    //                     throw new Error('기록 없음'); // 아래 새 시작 로직으로 이동
+    //                 }
+
+    //                 if (!data.topic || !data.current_level) {
+    //                     console.warn('topic이나 current_level 없으므로 새 startChat 호출');
+    //                     localStorage.removeItem('latest_session_id');
+
+    //                     const newData = await startChatApi(token);
+    //                     setChatData(newData);
+    //                     setChatLog([{ sender: 'bot', text: newData.question }]);
+    //                     localStorage.setItem('latest_session_id', newData.session_id);
+    //                     return;
+    //                 }
+
+    //                 const formattedChat = data.messages.map((msg) => ({
+    //                     sender: msg.speaker === 'AI' ? 'bot' : 'user',
+    //                     text: msg.content,
+    //                 }));
+
+    //                 setChatLog(formattedChat);
+    //                 setChatData({
+    //                     session_id: data.session_id,
+    //                     topic: data.topic,
+    //                     current_level: data.current_level,
+    //                 });
+    //                 setIsComplete(data.is_complete); // 서버에서 complete 알려준 경우
     //                 return;
     //             }
-    //             const formattedChat = data.messages.map((msg) => ({
-    //                 sender: msg.speaker === 'AI' ? 'bot' : 'user',
-    //                 text: msg.content,
-    //             }));
-    //             setChatLog(formattedChat);
-    //             setChatData({ session_id: data.session_id }); // 최소한으로 필요한 필드
-    //             setIsComplete(true); // 기록은 완료된 세션이므로 입력창 숨기기
+
+    //             throw new Error('sessionId 없음');
     //         } catch (err) {
-    //             console.error('채팅 기록 불러오기 실패:', err);
+    //             console.log('새 세션 시작');
+    //             try {
+    //                 const data = await startChatApi(token);
+    //                 setChatData(data);
+    //                 console.log('startChat 응답:', data);
+    //                 setChatLog([{ sender: 'bot', text: data.question }]);
+    //                 localStorage.setItem('latest_session_id', data.session_id);
+    //             } catch (startErr) {
+    //                 console.error('새로운 채팅 시작 실패:', startErr);
+    //             }
     //         }
     //     };
 
-    //     fetchChatHistory();
+    //     initChat();
     // }, [sessionId, token]);
 
     useEffect(() => {
         const initChat = async () => {
+            const savedDate = localStorage.getItem('latest_session_date');
+            const today = new Date().toISOString().split('T')[0];
+            const hasValidSession = !!sessionId && savedDate === today;
+
+            // 날짜가 다르면 새로운 세션 시작
+            // const shouldStartNewChat = savedDate !== today;
+
             try {
-                if (sessionId) {
-                    console.log('기존 세션 불러오기:', sessionId);
+                // if (!shouldStartNewChat && sessionId) {
+                //     const data = await getChatHistoryApi(sessionId, token);
+                if (hasValidSession) {
                     const data = await getChatHistoryApi(sessionId, token);
-                    console.log('getChatHistoryApi 응답:', data);
 
-                    // 세션이 유효하지 않거나 기록이 없으면 새로운 채팅 시작
                     if (!data.messages || data.messages.length === 0) {
-                        console.log('기록 없으므로 새로운 채팅 시작');
                         localStorage.removeItem('latest_session_id');
-                        throw new Error('기록 없음'); // 아래 새 시작 로직으로 이동
-                    }
-
-                    if (!data.topic || !data.current_level) {
-                        console.warn('topic이나 current_level 없으므로 새 startChat 호출');
-                        localStorage.removeItem('latest_session_id');
-
-                        const newData = await startChatApi(token);
-                        setChatData(newData);
-                        setChatLog([{ sender: 'bot', text: newData.question }]);
-                        localStorage.setItem('latest_session_id', newData.session_id);
-                        return;
+                        localStorage.removeItem('latest_session_date');
+                        throw new Error('기록 없음');
                     }
 
                     const formattedChat = data.messages.map((msg) => ({
@@ -174,22 +199,18 @@ const Chat = () => {
                         topic: data.topic,
                         current_level: data.current_level,
                     });
-                    setIsComplete(data.is_complete); // 서버에서 complete 알려준 경우
+                    setIsComplete(data.is_complete);
                     return;
                 }
 
-                throw new Error('sessionId 없음');
+                // 새로운 채팅 시작
+                const newData = await startChatApi(token);
+                setChatData(newData);
+                setChatLog([{ sender: 'bot', text: newData.question }]);
+                localStorage.setItem('latest_session_id', newData.session_id);
+                localStorage.setItem('latest_session_date', today);
             } catch (err) {
-                console.log('새 세션 시작');
-                try {
-                    const data = await startChatApi(token);
-                    setChatData(data);
-                    console.log('startChat 응답:', data);
-                    setChatLog([{ sender: 'bot', text: data.question }]);
-                    localStorage.setItem('latest_session_id', data.session_id);
-                } catch (startErr) {
-                    console.error('새로운 채팅 시작 실패:', startErr);
-                }
+                console.error('채팅 초기화 실패:', err);
             }
         };
 
@@ -232,13 +253,6 @@ const Chat = () => {
                             <Cs.ChatUser key={index}>{chat.text}</Cs.ChatUser>
                         )
                     )}
-                    {/* {chatLog.map((chat) =>
-                        chat.sender === 'bot' ? (
-                            <Cs.Chatbot key={chat.key}>{chat.text}</Cs.Chatbot>
-                        ) : (
-                            <Cs.ChatUser key={chat.key}>{chat.text}</Cs.ChatUser>
-                        )
-                    )} */}
                     <div ref={chatEndRef} />
                 </Cs.Chat>
 

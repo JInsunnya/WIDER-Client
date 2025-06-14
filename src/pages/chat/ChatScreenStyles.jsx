@@ -47,21 +47,6 @@ export const LogoIcon = styled.div`
 `;
 
 export const HeaderText = styled.div`
-    /* margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-left: -25px;
-    position: relative;
-    width: 180px;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    color: #4e4e4e;
-    font-weight: bold;
-    font-size: 12px;
-    padding: 10px 10px;
-    font-size: 12px; */
     position: relative;
     width: 180px;
     height: 50px;
