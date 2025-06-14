@@ -24,7 +24,6 @@ export const Content = styled.div`
     flex-direction: column;
     gap: 25px;
     border-radius: 20px;
-    /* padding: 15px; */
     padding: 100px 15px 130px;
 `;
 export const CategoryContent = styled.div`
@@ -33,7 +32,7 @@ export const CategoryContent = styled.div`
     align-items: center;
     background-color: #e6e4e4;
     border-radius: 20px;
-    padding: 20px 15px;
+    padding: 20px 45px;
     color: #383636;
     font-weight: bold;
 `;
@@ -48,4 +47,19 @@ export const ContentTitle = styled.div`
     font-size: 16px;
     text-align: left;
     word-break: keep-all;
+    margin-right: 10px;
+`;
+
+export const BloomLevel = styled.div`
+    font-size: 17px;
+    color: #383636;
+    font-weight: bold;
+    margin-bottom: 1px;
+`;
+
+export const EmptyMessage = styled.div`
+    font-size: 16px;
+    color: #888;
+    margin-top: 50px;
+    text-align: center;
 `;
