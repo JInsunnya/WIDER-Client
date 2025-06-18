@@ -32,6 +32,8 @@ export const MonthTitle = styled.div`
 `;
 
 export const ChartBox = styled.div`
+    flex: 1;
+    margin: 0 4px;
     background-color: #f6f6f6;
     border-radius: 20px;
     padding: 20px;
@@ -52,12 +54,11 @@ export const ChartBarGroup = styled.div`
 `;
 
 export const ChartBar = styled.div`
-    width: 13%;
+    width: 12%;
     height: ${({ height }) => height};
     max-height: 280px;
     background-color: ${({ color }) => color};
     border-radius: 6px;
-    transition: height 0.3s;
 `;
 
 export const ChartLabelGroup = styled.div`
@@ -65,6 +66,15 @@ export const ChartLabelGroup = styled.div`
     justify-content: space-between;
     font-size: 12px;
     color: #444;
+    width: 100%;
+`;
+
+export const ChartLabel = styled.div`
+    flex: 1;
+    margin: 0 4px;
+    font-size: 12px;
+    color: #444;
+    text-align: center;
 `;
 
 export const FeedbackBox = styled.div`
