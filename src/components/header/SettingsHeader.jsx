@@ -36,11 +36,21 @@ const SettingsHeader = () => {
     //         ? 'WIDER와 함께한 이번 달 사고 연습,\n내 사고 레벨은 어디쯤일까요?'
     //         : '리포트 기록을 확인해 보세요!';
 
-    const isHome = location.pathname === '/home';
+    const path = location.pathname;
 
-    const title = isHome ? '나의 AI 파트너, WIDER와' : '이전 대화를 다시 보고 싶다면?';
+    let title = '나의 AI 파트너, WIDER와';
+    let subtitle = '오늘의 대화를 시작해 보세요!';
 
-    const subtitle = isHome ? '오늘의 대화를 시작해 보세요!' : '기록 목록에서 확인해 보세요!';
+    if (path === '/insight') {
+        title = 'WIDER와 함께한 사고 연습';
+        subtitle = '그동안의 레벨 변화는 어땠을까요?';
+    } else if (path === '/insightchart') {
+        title = 'WIDER와 함께한 이번 달 사고 연습';
+        subtitle = '내 사고 레벨은 어디쯤일까요?';
+    } else if (path !== '/home') {
+        title = '이전 대화를 다시 보고 싶다면?';
+        subtitle = '기록 목록에서 확인해 보세요!';
+    }
 
     const toggleDropdown = () => {
         setShowDropdown((prev) => !prev);
