@@ -28,7 +28,11 @@ const HomeDeskHeader = ({ sessionId }) => {
                 <Dh.BackgroundImg src={RectangleHeader} />
                 <Dh.TextWrapper>
                     {location.pathname.startsWith('/record') ? (
-                        <Dh.TextRecord>리포트 기록을 확인해 보세요!</Dh.TextRecord>
+                        <Dh.TextRecord>
+                            이전 대화를 다시 보고 싶다면?
+                            <br />
+                            기록 목록에서 확인해 보세요!
+                        </Dh.TextRecord>
                     ) : location.pathname === '/insight' ? (
                         <Dh.TextRecord>
                             WIDER와 함께한 사고 연습,
