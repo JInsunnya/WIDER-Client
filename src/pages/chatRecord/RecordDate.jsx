@@ -35,18 +35,6 @@ const RecordDate = () => {
     return (
         <Rd.Container>
             <Header />
-            {/* <Rd.Content>
-                {recordList.map((record) => (
-                    <Rd.CategoryContent
-                        key={record.session_id}
-                        onClick={() => navigate(`/report`, { state: { sessionId: record.session_id } })}
-                    >
-                        <Rd.CategoryDate>{formatDate(record.started_at)}</Rd.CategoryDate>
-                        <Rd.ContentTitle>{record.topic}</Rd.ContentTitle>
-                        <Rd.BloomLevel>Level {record.bloom_level}</Rd.BloomLevel>
-                    </Rd.CategoryContent>
-                ))}
-            </Rd.Content> */}
             <Rd.Content>
                 {recordList.length === 0 ? (
                     <Rd.EmptyMessage>기록된 내용이 없습니다.</Rd.EmptyMessage>

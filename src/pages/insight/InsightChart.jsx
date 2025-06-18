@@ -76,7 +76,7 @@ const InsightChart = () => {
                         <Ic.ChartBox>
                             <Ic.ChartBarGroup>
                                 {selectedData.levels.map((value, i) => (
-                                    <Ic.ChartBar key={i} height={`${value * 90}px`} color={levelColors[i]} />
+                                    <Ic.ChartBar key={i} height={`${value * 50}px`} color={levelColors[i]} />
                                 ))}
                             </Ic.ChartBarGroup>
                             <Ic.ChartLabelGroup>

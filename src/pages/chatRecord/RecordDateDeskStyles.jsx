@@ -54,6 +54,7 @@ export const ContentTitle = styled.div`
     font-size: 18px;
     text-align: left;
     word-break: keep-all;
+    margin-right: 20px;
 `;
 
 export const BloomLevel = styled.div`
