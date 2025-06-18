@@ -32,14 +32,14 @@ export const CategoryContent = styled.div`
     align-items: center;
     background-color: #e6e4e4;
     border-radius: 20px;
-    padding: 20px 45px;
+    padding: 20px 30px;
     color: #383636;
     font-weight: bold;
 `;
 
 export const CategoryDate = styled.div`
     font-size: 16px;
-    margin-right: 10px;
+    margin-right: 15px;
     white-space: nowrap;
 `;
 
