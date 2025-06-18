@@ -54,16 +54,12 @@ export const HeaderText = styled.div`
 `;
 
 export const ServiceName = styled.div`
-    /* position: relative;
-    z-index: 1; */
     font-weight: bold;
     font-size: 12px;
     color: #4e4e4e;
 `;
 
 export const ServiceTagline = styled.div`
-    /* position: relative;
-    z-index: 1; */
     font-size: 12px;
     color: #4e4e4e;
 `;
@@ -109,7 +105,7 @@ export const Title = styled.div`
 export const Question = styled.div`
     background-color: #e6f7ff;
     width: 300px;
-    height: 130px;
+    height: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;

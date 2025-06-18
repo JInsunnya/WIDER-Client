@@ -52,11 +52,12 @@ export const Content = styled.div`
 export const ChartGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px 60px;
+    gap: 40px 70px;
     justify-content: center;
-    margin-top: 20px;
     cursor: pointer;
     width: 100%;
+    padding: 8%;
+    margin-top: -5%;
 `;
 
 export const ChartBox = styled.div`

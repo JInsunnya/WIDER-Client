@@ -8,6 +8,8 @@ import HomeOff from '../../assets/HomeOff.svg';
 import HomeOn from '../../assets/HomeOn.svg';
 import InsightOff from '../../assets/InsightOff.svg';
 import InsightOn from '../../assets/InsightOn.svg';
+// import ReportOff from '../../assets/ReportOff.svg';
+// import ReportOn from '../../assets/ReportOn.svg';
 
 const Footer = () => {
     const location = useLocation();
@@ -15,7 +17,7 @@ const Footer = () => {
     const navigate = useNavigate();
 
     const goToRecord = () => {
-        navigate('/recordcategory');
+        navigate('/recorddate');
     };
 
     const goToHome = () => {
@@ -25,6 +27,10 @@ const Footer = () => {
     const goToInsight = () => {
         navigate('/insight');
     };
+
+    // const goToReport = () => {
+    //     navigate('/report');
+    // };
 
     return (
         <F.Container>

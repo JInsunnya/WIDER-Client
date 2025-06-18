@@ -27,7 +27,7 @@ const Sidebar = () => {
     };
 
     const goToRecord = () => {
-        navigate('/recordcategory');
+        navigate('/recorddate');
     };
 
     const goToInsight = () => {

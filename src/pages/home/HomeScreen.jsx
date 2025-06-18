@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getTodayTopicApi } from '../../api/home/getTopicApi';
+import { getReportBySessionIdApi } from '../../api/report/ReportApi';
 import * as H from './HomeScreenStyles.jsx';
 import LogoIcon from '../../assets/LogoIcon.png';
-import BellOff from '../../assets/BellOff.png';
+// import BellOff from '../../assets/BellOff.png';
 // import BellOn from '../../assets/BellOn.png';
+import Header from '../../components/header/SettingsHeader.jsx';
 import Footer from '../../components/footer/Footer.jsx';
 import RectangleHeader from '../../assets/RectangleHeader.svg';
 
@@ -15,11 +17,21 @@ const Home = () => {
     const [todayTopic, setTodayTopic] = useState('');
 
     const goToChat = () => {
-        navigate('/chat');
+        const sessionId = localStorage.getItem('latest_session_id');
+        if (sessionId) {
+            navigate('/chat', { state: { sessionId } });
+        } else {
+            navigate('/chat');
+        }
     };
 
     const goToReport = () => {
-        navigate('/report');
+        const sessionId = localStorage.getItem('latest_session_id');
+        navigate('/report', {
+            state: {
+                sessionId,
+            },
+        });
     };
 
     const goToNotification = () => {
@@ -42,7 +54,7 @@ const Home = () => {
 
     return (
         <H.Container>
-            <H.Header>
+            {/* <H.Header>
                 <H.LogoIcon>
                     <img src={LogoIcon} />
                 </H.LogoIcon>
@@ -64,7 +76,8 @@ const Home = () => {
                 <H.BellOff onClick={goToNotification}>
                     <img src={BellOff} />
                 </H.BellOff>
-            </H.Header>
+            </H.Header> */}
+            <Header />
             <H.Content>
                 <H.Title>오늘의 질문</H.Title>
                 <H.Question onClick={goToChat}>{todayTopic}</H.Question>
@@ -72,7 +85,7 @@ const Home = () => {
                     터치하여 대화를 <br />
                     시작하세요!
                 </H.StartConversation>
-                <H.ReportCreated>어제의 리포트가 생성되었습니다!</H.ReportCreated>
+                <H.ReportCreated>오늘의 리포트가 생성되었습니다!</H.ReportCreated>
                 <H.ButtonReport onClick={goToReport}>리포트 보러 가기</H.ButtonReport>
             </H.Content>
             <Footer />
