@@ -63,7 +63,7 @@ export const ChartLabelGroup = styled.div`
 export const FeedbackBox = styled.div`
     background-color: #f6f6f6;
     border-radius: 20px;
-    padding: 25px;
+    padding: 17px;
     font-size: 15px;
     color: #383636;
     line-height: 1.5;

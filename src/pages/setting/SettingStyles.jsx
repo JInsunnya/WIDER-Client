@@ -18,11 +18,12 @@ export const Content = styled.div`
     padding: 80px;
     width: 100%;
     margin-top: 10%;
+    margin-left: 10%;
 `;
 
 export const Section = styled.div`
     margin-bottom: 32px;
-    width: 100%;
+    width: 90%;
 `;
 
 export const SectionTitle = styled.h2`
