@@ -48,7 +48,7 @@ export const ChartGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-top: 20px;
+    margin-top: 30px;
     cursor: pointer;
 `;
 
