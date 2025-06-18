@@ -88,7 +88,7 @@ const InsightChart = () => {
                             <I.MonthText>{data.month}</I.MonthText>
                             <I.ChartBarGroup>
                                 {data.levels.map((value, i) => (
-                                    <I.ChartBar key={i} height={`${value * 50}px`} color={levelColors[i]} />
+                                    <I.ChartBar key={i} height={`${value * 30}px`} color={levelColors[i]} />
                                 ))}
                             </I.ChartBarGroup>
                             <I.ChartLabelGroup>
