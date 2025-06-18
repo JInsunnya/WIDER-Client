@@ -54,7 +54,7 @@ const RecordDate = () => {
                     recordList.map((record) => (
                         <Rd.CategoryContent
                             key={record.session_id}
-                            onClick={() => navigate(`/report`, { state: { sessionId: record.session_id } })}
+                            onClick={() => navigate(`/chat`, { state: { sessionId: record.session_id } })}
                         >
                             <Rd.CategoryDate>{formatDate(record.started_at)}</Rd.CategoryDate>
                             <Rd.ContentTitle>{record.topic}</Rd.ContentTitle>
