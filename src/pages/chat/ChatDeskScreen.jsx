@@ -202,6 +202,44 @@ const ChatDesk = () => {
         initChat();
     }, [sessionId, token]);
 
+    useEffect(() => {
+        const fromRecordPage = !!location.state?.sessionId;
+
+        if (!fromRecordPage) return;
+
+        const loadPastChat = async () => {
+            try {
+                const data = await getChatHistoryApi(location.state.sessionId, token);
+
+                if (!data.messages || data.messages.length === 0) {
+                    throw new Error('기록 없음');
+                }
+
+                const formattedChat = data.messages
+                    .sort((a, b) => a.message_order - b.message_order)
+                    .map((msg) => ({
+                        sender: msg.speaker === 'AI' ? 'bot' : 'user',
+                        text: msg.content,
+                    }));
+
+                setChatLog(formattedChat);
+                setChatData({
+                    session_id: data.session_id,
+                    topic: data.topic,
+                    current_level: data.current_level,
+                });
+                setIsComplete(true);
+
+                localStorage.removeItem('latest_session_id');
+                localStorage.removeItem('latest_session_date');
+            } catch (err) {
+                console.error('기록 불러오기 실패:', err);
+            }
+        };
+
+        loadPastChat();
+    }, [location.state?.sessionId, token]);
+
     const scrollToBottom = () => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
