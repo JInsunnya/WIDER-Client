@@ -46,7 +46,7 @@ const RecordDate = () => {
                         >
                             <Rd.CategoryDate>{formatDate(record.started_at)}</Rd.CategoryDate>
                             <Rd.ContentTitle>{record.topic}</Rd.ContentTitle>
-                            <Rd.BloomLevel>Level {record.bloom_level}</Rd.BloomLevel>
+                            <Rd.BloomLevel>Level 6</Rd.BloomLevel>
                         </Rd.CategoryContent>
                     ))
                 )}

@@ -45,7 +45,7 @@ const RecordDateDesk = () => {
                         >
                             <R.CategoryDate>{formatDate(record.started_at)}</R.CategoryDate>
                             <R.ContentTitle>{record.topic}</R.ContentTitle>
-                            <R.BloomLevel>Level {record.bloom_level}</R.BloomLevel>
+                            <R.BloomLevel>Level 6</R.BloomLevel>
                         </R.CategoryContent>
                     ))
                 )}
